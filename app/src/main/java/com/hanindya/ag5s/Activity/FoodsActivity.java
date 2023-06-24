@@ -106,7 +106,7 @@ public class FoodsActivity extends AppCompatActivity {
     private void addNewFood() {
         AlertDialog.Builder createFood = new AlertDialog.Builder(this);
         createFood.setCancelable(false);
-        createFood.setMessage("Buat Data Baru");
+        createFood.setMessage("Buat Data Menu Baru");
 
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View dialogAddNewFood = layoutInflater.inflate(R.layout.dialog_add_food,null);
@@ -155,10 +155,18 @@ public class FoodsActivity extends AppCompatActivity {
         createFood.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                newFood = new Foods(foodName.getText().toString(),categoryFood,Double.parseDouble(foodPrice.getText().toString()),1);
-                if (newFood!=null){
-                    dbFood.push().setValue(newFood);
-                    Toast.makeText(FoodsActivity.this, "Sukses. Data berhasil ditambah", Toast.LENGTH_SHORT).show();
+                if (foodName.getText().toString().length() == 0){
+                    Toast.makeText(FoodsActivity.this, "Gagal. Nama Menu Invalid", Toast.LENGTH_SHORT).show();
+                } else if (foodPrice.getText().toString() == "Rp 0" || foodPrice.getText().toString().length() == 0){
+                    Toast.makeText(FoodsActivity.this, "Gagal. Harga Invalid", Toast.LENGTH_SHORT).show();
+                } else if (categoryFood.equals("unSelect") || categoryFood.equals("")){
+                    Toast.makeText(FoodsActivity.this, "Gagal. Kategori Invalid", Toast.LENGTH_SHORT).show();
+                } else {
+                    newFood = new Foods(foodName.getText().toString(),categoryFood,Double.parseDouble(foodPrice.getText().toString()),1);
+                    if (newFood!=null){
+                        dbFood.push().setValue(newFood);
+                        Toast.makeText(FoodsActivity.this, "Sukses. Menu "+foodName.getText().toString()+" Berhasil Dibuat", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

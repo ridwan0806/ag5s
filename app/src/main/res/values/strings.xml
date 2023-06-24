@@ -13,8 +13,9 @@
     <string name="hakAkses">Hak Akses</string>
 
     <!--Foods-->
-    <string name="daftarMakanan">DAFTAR MENU</string>
+    <string name="daftarMakanan">LIST DAFTAR MENU</string>
     <string name="harga">Harga :</string>
+    <string name="harga_satuan">Harga Satuan :</string>
     <string name="kategori">Kategori :</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -26,5 +27,13 @@
     <string name="cat_1">Makanan</string>
     <string name="cat_2">Minuman</string>
     <string name="cat_3">Tambahan</string>
+
+    <!--CART ACTIVITY-->
+    <string name="header_cart">List Daftar Pemesanan</string>
+    <string name="subtotalprice_cart">Subtotal Harga :</string>
+    <string name="subtotalqty_cart">Subtotal Item :</string>
+    <string name="confirm_cart">Konfirmasi Pesanan</string>
+    <string name="subtotal">Subtotal :</string>
+
 
 </resources>
