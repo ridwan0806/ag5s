@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuFoodEditName"
+        android:title="@string/foodMenuEditName" />
+    <item
+        android:id="@+id/menuFoodEditPrice"
+        android:title="@string/foodMenuEditPrice" />
+    <item
+        android:id="@+id/menuFoodDeleteItem"
+        android:title="@string/foodMenuDelete" />
+</menu>

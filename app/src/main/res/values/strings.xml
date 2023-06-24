@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">AG5S</string>
+
+    <!--DASHBOARD-->
+    <string name="makanan">Makanan</string>
+    <string name="bahanBaku">Bahan Baku</string>
+    <string name="kasir">Kasir</string>
+    <string name="pengeluaran">Pengeluaran</string>
+
+    <string name="pesanan">Pesanan</string>
+    <string name="belanja">Belanja</string>
+    <string name="laporan">Laporan</string>
+    <string name="hakAkses">Hak Akses</string>
+
+    <!--Foods-->
+    <string name="daftarMakanan">DAFTAR MENU</string>
+    <string name="harga">Harga :</string>
+    <string name="kategori">Kategori :</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Menu-->
+    <string name="foodMenuEditName">Edit Nama</string>
+    <string name="foodMenuEditPrice">Edit Harga</string>
+    <string name="foodMenuDelete">Hapus</string>
+    <!--Food Menu-->
+    <string name="cat_1">Makanan</string>
+    <string name="cat_2">Minuman</string>
+    <string name="cat_3">Tambahan</string>
+
+</resources>

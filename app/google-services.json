@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "55771965819",
+    "firebase_url": "https://ag5s-operational-apps-default-rtdb.firebaseio.com",
+    "project_id": "ag5s-operational-apps",
+    "storage_bucket": "ag5s-operational-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55771965819:android:a278a3fcec0204e6a475de",
+        "android_client_info": {
+          "package_name": "com.hanindya.ag5s"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55771965819-gr7e3lfbr9i8ukk1i59s7neum7j2vko6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanindya.ag5s",
+            "certificate_hash": "6b4f47aef394265d1aadaae99ecadfc04159d730"
+          }
+        },
+        {
+          "client_id": "55771965819-89h9ve2r8h91g8qu2rpfqvjrlbvisugb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPfJsk-z3Dzo2s_doBMFSTGkBPMdzJjIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55771965819-89h9ve2r8h91g8qu2rpfqvjrlbvisugb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
