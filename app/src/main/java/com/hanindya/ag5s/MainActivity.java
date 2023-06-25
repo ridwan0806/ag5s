@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.hanindya.ag5s.Activity.FoodsActivity;
 
 public class MainActivity extends AppCompatActivity {
-    ConstraintLayout food,supplies,cashier;
+    ConstraintLayout food,supplies,cashier,cartOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,9 +17,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         
         food = findViewById(R.id.ic_food);
+        cartOrder = findViewById(R.id.ic_cartOrder);
 
         food.setOnClickListener(view -> {
             Intent i = new Intent(MainActivity.this, FoodsActivity.class);
+            startActivity(i);
+        });
+
+        cartOrder.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, CartActivity.class);
             startActivity(i);
         });
     }

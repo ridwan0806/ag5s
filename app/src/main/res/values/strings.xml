@@ -29,9 +29,9 @@
     <string name="cat_3">Tambahan</string>
 
     <!--CART ACTIVITY-->
-    <string name="header_cart">List Daftar Pemesanan</string>
-    <string name="subtotalprice_cart">Subtotal Harga :</string>
-    <string name="subtotalqty_cart">Subtotal Item :</string>
+    <string name="header_cart">List Menu Pesanan</string>
+    <string name="subtotalprice_cart">Total Pembayaran :</string>
+    <string name="subtotalqty_cart">Total Item (Qty):</string>
     <string name="confirm_cart">Konfirmasi Pesanan</string>
     <string name="subtotal">Subtotal :</string>
 
