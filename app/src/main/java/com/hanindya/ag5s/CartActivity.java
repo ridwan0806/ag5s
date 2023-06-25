@@ -28,16 +28,13 @@ public class CartActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-//        loadListOrderItem();
-        orderItem = new DatabaseOrderItem(this).getAllOrderItems();
-        adapter = new CartOrderAdapter(this,orderItem);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        loadListOrderItem();
     }
 
     private void loadListOrderItem() {
         orderItem = new DatabaseOrderItem(this).getAllOrderItems();
         adapter = new CartOrderAdapter(this,orderItem);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

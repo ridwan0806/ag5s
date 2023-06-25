@@ -25,6 +25,7 @@ import com.hanindya.ag5s.R;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.ViewHolder> {
     private Context context;
@@ -68,13 +69,13 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         int itemId = menuItem.getItemId();
                         if (itemId == R.id.cart_order_edit_qty){
-                            Toast.makeText(context, "edit qty", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Fitur Ubah Qty Belum Siap", Toast.LENGTH_SHORT).show();
                         } else if (itemId == R.id.cart_order_edit_price){
-                            Toast.makeText(context, "edit price", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Fitur Edit Harga Belum Siap", Toast.LENGTH_SHORT).show();
                         } else if (itemId == R.id.cart_order_delete_food){
                             AlertDialog.Builder confirmDelete = new AlertDialog.Builder(context);
                             confirmDelete.setCancelable(false);
-                            confirmDelete.setMessage("Hapus "+list.getFoodName()+" dari List Pesanan ?");
+                            confirmDelete.setMessage("Hapus "+list.getFoodName()+" dari daftar pesanan ?");
 
                             confirmDelete.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                                 @Override
@@ -91,7 +92,7 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
                                     orderItem.remove(position);
                                     notifyItemRemoved(position);
                                     notifyDataSetChanged();
-                                    Toast.makeText(context, "Menu Berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, ""+list.getFoodName()+" dihapus dari pesanan", Toast.LENGTH_SHORT).show();
                                 }
                             });
                             confirmDelete.show();
