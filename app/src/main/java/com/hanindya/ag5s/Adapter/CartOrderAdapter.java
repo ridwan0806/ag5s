@@ -1,15 +1,24 @@
 package com.hanindya.ag5s.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hanindya.ag5s.CartActivity;
+import com.hanindya.ag5s.Helper.DatabaseOrderItem;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
 
@@ -34,7 +43,7 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartOrderAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CartOrderAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         OrderItem list = orderItem.get(position);
 
         int number = position + 1;
@@ -48,6 +57,51 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
         holder.qty.setText(String.valueOf(list.getQty()));
         holder.price.setText(formatRp.format(price));
         holder.subtotal.setText(formatRp.format(subtotal));
+        
+        holder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(view.getContext(),holder.menu);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_cart_order,popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        int itemId = menuItem.getItemId();
+                        if (itemId == R.id.cart_order_edit_qty){
+                            Toast.makeText(context, "edit qty", Toast.LENGTH_SHORT).show();
+                        } else if (itemId == R.id.cart_order_edit_price){
+                            Toast.makeText(context, "edit price", Toast.LENGTH_SHORT).show();
+                        } else if (itemId == R.id.cart_order_delete_food){
+                            AlertDialog.Builder confirmDelete = new AlertDialog.Builder(context);
+                            confirmDelete.setCancelable(false);
+                            confirmDelete.setMessage("Hapus "+list.getFoodName()+" dari List Pesanan ?");
+
+                            confirmDelete.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+
+                            confirmDelete.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    DatabaseOrderItem db = new DatabaseOrderItem(context);
+                                    db.delete(Integer.parseInt(list.getId()));
+                                    orderItem.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyDataSetChanged();
+                                    Toast.makeText(context, "Menu Berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            confirmDelete.show();
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
     }
 
     @Override

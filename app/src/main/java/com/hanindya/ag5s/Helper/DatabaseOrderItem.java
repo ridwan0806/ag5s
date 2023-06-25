@@ -134,4 +134,10 @@ public class DatabaseOrderItem extends SQLiteOpenHelper {
             Toast.makeText(context, "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void delete(int id){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String query = "DELETE FROM OrderItem WHERE id="+id;
+        database.execSQL(query);
+    }
 }

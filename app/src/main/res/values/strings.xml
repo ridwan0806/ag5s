@@ -20,9 +20,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--Menu-->
-    <string name="foodMenuEditName">Edit Nama</string>
-    <string name="foodMenuEditPrice">Edit Harga</string>
+    <string name="foodMenuEditName">Ubah Nama</string>
+    <string name="foodMenuEditPrice">Ubah Harga</string>
     <string name="foodMenuDelete">Hapus</string>
+    <string name="foodMenuEditQty">Ubah Qty</string>
     <!--Food Menu-->
     <string name="cat_1">Makanan</string>
     <string name="cat_2">Minuman</string>
