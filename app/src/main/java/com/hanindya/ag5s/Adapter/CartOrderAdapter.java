@@ -3,7 +3,6 @@ package com.hanindya.ag5s.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hanindya.ag5s.CartActivity;
 import com.hanindya.ag5s.Helper.DatabaseOrderItem;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
@@ -25,7 +23,6 @@ import com.hanindya.ag5s.R;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.ViewHolder> {
     private Context context;

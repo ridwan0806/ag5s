@@ -106,6 +106,12 @@ public class DatabaseOrderItem extends SQLiteOpenHelper {
         return itemList;
     }
 
+    public void cleanAll(){
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME;
+        db.execSQL(query);
+    }
+
     public void updateCart(String row_id, String price, String qty)
     {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -8,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,14 +18,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hanindya.ag5s.Activity.CartActivity;
+import com.hanindya.ag5s.Activity.CashierActivity;
 import com.hanindya.ag5s.Activity.FoodsActivity;
+import com.hanindya.ag5s.Activity.UserActivity;
 
 public class MainActivity extends AppCompatActivity {
     ConstraintLayout food,supplies,cashier,cartOrder,userPage,logout;
-    TextView userName;
+    TextView userName,userBranch;
     FirebaseUser firebaseUser;
+    DatabaseReference root,dbUser;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         userName = findViewById(R.id.txtUsername);
+        userBranch = findViewById(R.id.txtBranch);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        userId = firebaseUser.getUid();
+
         if (firebaseUser != null){
             userName.setText(firebaseUser.getDisplayName());
         } else {
@@ -43,9 +49,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(login);
             finish();
         }
+
+        root = FirebaseDatabase.getInstance().getReference();
+        dbUser = root.child("Users").child(userId);
+        getUserInfo();
         
         food = findViewById(R.id.ic_food);
         supplies = findViewById(R.id.ic_supplies);
+        cashier = findViewById(R.id.ic_cashier);
         cartOrder = findViewById(R.id.ic_cartOrder);
         userPage = findViewById(R.id.ic_user);
         logout = findViewById(R.id.ic_logout);
@@ -56,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         supplies.setOnClickListener(view -> {
-            Intent i = new Intent(MainActivity.this, Login.class);
+            Toast.makeText(this, "supplies", Toast.LENGTH_SHORT).show();
+        });
+
+        cashier.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, CashierActivity.class);
             startActivity(i);
         });
 
@@ -97,5 +112,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getUserInfo() {
+        dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String branch = snapshot.child("branch").getValue(String.class);
+                userBranch.setText(branch);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        });
     }
 }

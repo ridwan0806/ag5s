@@ -2,7 +2,7 @@
     <string name="app_name">AG5S Management System</string>
 
     <!--LOGIN-->
-    <string name="branch">PILIH CABANG</string>
+    <string name="branch">NAMA CABANG</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
@@ -11,7 +11,8 @@
     <string name="cikampak">CIKAMPAK</string>
 
     <!--DASHBOARD-->
-    <string name="makanan">Makanan</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="makanan">Daftar Menu</string>
     <string name="bahanBaku">Bahan Baku</string>
     <string name="kasir">Kasir</string>
     <string name="pengeluaran">Pengeluaran</string>
@@ -44,6 +45,16 @@
     <string name="subtotalqty_cart">Total Item (Qty):</string>
     <string name="confirm_cart">Konfirmasi Pesanan</string>
     <string name="subtotal">Subtotal :</string>
+    <string name="custName">Nama Pemesan</string>
+    <string name="typeOrder">Tipe Pesanan :</string>
+        <string name="dineIn">Dine In</string>
+        <string name="takeAway">Take Away</string>
+    <string name="typeCustomer">Kategori Pelanggan : </string>
+        <string name="umum">Umum</string>
+        <string name="online">Online (Ojol)</string>
+        <string name="karyawan">Karyawan</string>
+        <string name="kerabat">Kerabat/Tetangga</string>
 
-
+    <!--CASHIER-->
+    <string name="headerCashier">Daftar Transaksi Penjualan</string>
 </resources>

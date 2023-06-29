@@ -1,4 +1,4 @@
-package com.hanindya.ag5s;
+package com.hanindya.ag5s.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +21,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hanindya.ag5s.Model.User;
+import com.hanindya.ag5s.R;
 
 public class UserActivity extends AppCompatActivity {
     EditText name,email,password;
