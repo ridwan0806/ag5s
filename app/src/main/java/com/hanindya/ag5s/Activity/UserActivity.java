@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hanindya.ag5s.MainActivity;
 import com.hanindya.ag5s.Model.User;
 import com.hanindya.ag5s.R;
 
@@ -103,6 +105,11 @@ public class UserActivity extends AppCompatActivity {
                                 user.setUsername(userName);
                                 user.setBranch(branchName);
                                 dbUser.child("Users").child(userKey).setValue(user);
+
+                                Toast.makeText(UserActivity.this, "User baru berhasil ditambah", Toast.LENGTH_SHORT).show();
+                                Intent home = new Intent(UserActivity.this, MainActivity.class);
+                                startActivity(home);
+                                finish();
                             }
                         });
                     } else {

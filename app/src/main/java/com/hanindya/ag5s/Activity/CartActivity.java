@@ -208,6 +208,7 @@ public class CartActivity extends AppCompatActivity {
                     Toast.makeText(CartActivity.this, "Pesanan berhasil disimpan", Toast.LENGTH_SHORT).show();
                     Intent home = new Intent(CartActivity.this, MainActivity.class);
                     startActivity(home);
+                    finish();
                 }
             }
 

@@ -47,14 +47,15 @@
     <string name="subtotal">Subtotal :</string>
     <string name="custName">Nama Pemesan</string>
     <string name="typeOrder">Tipe Pesanan :</string>
-        <string name="dineIn">Dine In</string>
-        <string name="takeAway">Take Away</string>
+    <string name="dineIn">Dine In</string>
+    <string name="takeAway">Take Away</string>
     <string name="typeCustomer">Kategori Pelanggan : </string>
-        <string name="umum">Umum</string>
-        <string name="online">Online (Ojol)</string>
-        <string name="karyawan">Karyawan</string>
-        <string name="kerabat">Kerabat/Tetangga</string>
+    <string name="umum">Umum</string>
+    <string name="online">Online (Ojol)</string>
+    <string name="karyawan">Karyawan</string>
+    <string name="kerabat">Kerabat/Tetangga</string>
 
     <!--CASHIER-->
     <string name="headerCashier">Daftar Transaksi Penjualan</string>
+
 </resources>

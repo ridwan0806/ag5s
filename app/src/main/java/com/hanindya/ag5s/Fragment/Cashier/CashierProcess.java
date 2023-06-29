@@ -1,14 +1,36 @@
 package com.hanindya.ag5s.Fragment.Cashier;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.hanindya.ag5s.CashierAdditionalFood;
+import com.hanindya.ag5s.CashierOrderDetail;
+import com.hanindya.ag5s.Interface.ItemClickListener;
+import com.hanindya.ag5s.Model.Foods;
+import com.hanindya.ag5s.Model.Order;
 import com.hanindya.ag5s.R;
+import com.hanindya.ag5s.ViewHolder.Cashier.VHCashierProcess;
+import com.hanindya.ag5s.ViewHolder.Foods.VHMasterFoods;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +38,13 @@ import com.hanindya.ag5s.R;
  * create an instance of this fragment.
  */
 public class CashierProcess extends Fragment {
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    ProgressBar progressBar;
+    FirebaseRecyclerAdapter<Order, VHCashierProcess> adapter;
+    DatabaseReference root,dbOrder,dbUser;
+    FirebaseUser firebaseUser;
+    String userId,branchName,userName;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +90,114 @@ public class CashierProcess extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cashier_process, container, false);
+        View layout = inflater.inflate(R.layout.fragment_cashier_process,container,false);
+
+        recyclerView = layout.findViewById(R.id.rv_cashier_process);
+        layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+        progressBar = layout.findViewById(R.id.pb_cashier_process);
+
+        root = FirebaseDatabase.getInstance().getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        userId = firebaseUser.getUid();
+        dbUser = root.child("Users").child(userId);
+//        dbOrder = root.child("Orders");
+
+        dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                branchName = snapshot.child("branch").getValue(String.class);
+                userName = snapshot.child("username").getValue(String.class);
+                dbOrder = root.child("Orders").child(branchName);
+                getOrderList();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        });
+
+        return layout;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        getOrderList();
+    }
+
+    private void getOrderList() {
+        FirebaseRecyclerOptions<Order> list =
+                new FirebaseRecyclerOptions.Builder<Order>()
+                        .setQuery(dbOrder.orderByChild("orderStatus").equalTo("Process"),Order.class)
+                        .build();
+        adapter = new FirebaseRecyclerAdapter<Order, VHCashierProcess>(list) {
+            @Override
+            protected void onBindViewHolder(@NonNull VHCashierProcess holder, int position, @NonNull Order model) {
+                int number = position + 1;
+                holder.numberCount.setText(String.valueOf(number));
+                holder.cashierProcessCustomerName.setText(model.getCustomerName());
+                holder.cashierProcessCustomerType.setText(model.getCustomerType());
+                holder.cashierProcessOrderType.setText(model.getOrderType());
+                holder.cashierProcessSubtotalPrice.setText(String.valueOf(model.getSubtotalPrice()));
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        Intent additionalFood = new Intent(getContext(), CashierOrderDetail.class);
+                        additionalFood.putExtra("orderId",adapter.getRef(position).getKey());
+                        startActivity(additionalFood);
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public VHCashierProcess onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_rv_cashier_process,parent,false);
+                return new VHCashierProcess(view);
+            }
+
+            @Override
+            public void onDataChanged(){
+                if (progressBar!=null){
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        };
+        adapter.startListening();
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void test() {
+//        FirebaseRecyclerOptions<Order> list =
+//                new FirebaseRecyclerOptions.Builder<Order>()
+//                        .setQuery(dbOrder.child(branchName).orderByChild("orderStatus").equalTo("Process"),Order.class)
+//                        .build();
+//        adapter = new FirebaseRecyclerAdapter<Order, VHCashierProcess>(list) {
+//            @Override
+//            protected void onBindViewHolder(@NonNull VHCashierProcess holder, int position, @NonNull Order model) {
+//                holder.cashierProcessCustomerName.setText(model.getCustomerName());
+//                holder.cashierProcessCustomerType.setText(model.getCustomerType());
+//                holder.cashierProcessOrderType.setText(model.getOrderType());
+//                holder.cashierProcessSubtotalPrice.setText(String.valueOf(model.getSubtotalPrice()));
+//            }
+//
+//            @NonNull
+//            @Override
+//            public VHCashierProcess onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_rv_cashier_process,parent,false);
+//                return new VHCashierProcess(view);
+//            }
+//
+//            @Override
+//            public void onDataChanged(){
+//                if (progressBar!=null){
+//                    progressBar.setVisibility(View.GONE);
+//                }
+//            }
+//        };
+//        adapter.startListening();
+//        recyclerView.setAdapter(adapter);
     }
 }
