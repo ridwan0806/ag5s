@@ -170,6 +170,8 @@ public class CartActivity extends AppCompatActivity {
                 date = new SimpleDateFormat("yyyy-MM-dd");
                 Date resultDate = new Date(estimateServerTime);
 
+                String orderDate = date.format(resultDate);
+
                 Order order = new Order();
                 order.setCustomerName(customerName.getText().toString());
                 order.setCustomerType(rdCustomerType);
@@ -184,8 +186,8 @@ public class CartActivity extends AppCompatActivity {
                 order.setNominalPayment(0);
                 order.setChange(0);
 
-                String orderId = dbOrder.child(branchName).push().getKey();
-                dbOrder.child(branchName).child(orderId).setValue(order);
+                String orderId = dbOrder.child(branchName).child(orderDate).push().getKey();
+                dbOrder.child(branchName).child(orderDate).child(orderId).setValue(order);
 
                 //Insert Items
                 HashMap<String,OrderItem> orderItems = new HashMap<>();
@@ -199,9 +201,9 @@ public class CartActivity extends AppCompatActivity {
 
                     OrderItem listItem = new OrderItem(id,foodId,foodName,foodQty,foodPrice,foodSubtotal);
 
-                    orderItems.put(dbOrder.child(branchName).child(orderId).child("orderItem").push().getKey(),listItem);
+                    orderItems.put(dbOrder.child(branchName).child(orderDate).child(orderId).child("orderItem").push().getKey(),listItem);
                     order.setOrderItem(orderItems);
-                    dbOrder.child(branchName).child(orderId).child("orderItem").setValue(orderItems);
+                    dbOrder.child(branchName).child(orderDate).child(orderId).child("orderItem").setValue(orderItems);
 
                     // Clean Cart
                     new DatabaseOrderItem(getBaseContext()).cleanAll();

@@ -32,6 +32,9 @@ import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Cashier.VHCashierProcess;
 import com.hanindya.ag5s.ViewHolder.Foods.VHMasterFoods;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CashierProcess#newInstance} factory method to
@@ -108,8 +111,34 @@ public class CashierProcess extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 branchName = snapshot.child("branch").getValue(String.class);
                 userName = snapshot.child("username").getValue(String.class);
-                dbOrder = root.child("Orders").child(branchName);
-                getOrderList();
+//                dbOrder = root.child("Orders").child(branchName);
+
+                DatabaseReference serverTime = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+                serverTime.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        long serverTimeOffset = snapshot.getValue(Long.class);
+                        long estimateServerTime = System.currentTimeMillis()+serverTimeOffset;
+
+                        SimpleDateFormat date;
+                        date = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date resultDate = new Date(estimateServerTime);
+                        String orderDate = date.format(resultDate);
+//                        Log.d("TAG",""+orderDate);
+                        dbOrder = root.child("Orders").child(branchName).child(orderDate);
+                        Log.d("TAG",""+dbOrder);
+
+                        getOrderList();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        throw error.toException();
+                    }
+                });
+
+//                getOrderList();
             }
 
             @Override

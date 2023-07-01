@@ -320,6 +320,7 @@ public class MasterFoods extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+                numberOrder = 1;
             }
         });
 
@@ -341,6 +342,7 @@ public class MasterFoods extends Fragment {
                             subtotal
                     ));
                     Toast.makeText(getContext(), foodName+" berhasil dimasukan ke pesanan", Toast.LENGTH_SHORT).show();
+                    numberOrder = 1;
                 }
             }
         });
