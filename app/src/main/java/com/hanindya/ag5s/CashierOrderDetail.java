@@ -56,7 +56,7 @@ public class CashierOrderDetail extends AppCompatActivity {
     EditText etEditPrice,etCancelReason;
     ImageView plusBtn,minBtn;
     int numberOrder = 1;
-    TextView lastQty,btnCancelOrder;
+    TextView lastQty,btnCancelOrder,btnAdditionalMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class CashierOrderDetail extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         btnCancelOrder = findViewById(R.id.btnOrderDetailCancelOrder);
+        btnAdditionalMenu = findViewById(R.id.btnOrderDetailAdditionalMenu);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = firebaseUser.getUid();
@@ -90,7 +91,7 @@ public class CashierOrderDetail extends AppCompatActivity {
 
                 Date resultDate = new Date(estimateServerTime);
                 orderDate = date.format(resultDate);
-                Log.d("TAG",""+orderDate);
+//                Log.d("TAG",""+orderDate);
             }
 
             @Override
@@ -113,6 +114,30 @@ public class CashierOrderDetail extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 throw error.toException();
             }
+        });
+
+        btnAdditionalMenu.setOnClickListener(view -> {
+            AlertDialog.Builder confirm = new AlertDialog.Builder(CashierOrderDetail.this);
+            confirm.setCancelable(false);
+            confirm.setMessage("Masukan menu tambahan pada pesanan ini ?");
+            confirm.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            confirm.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent addMenu = new Intent(CashierOrderDetail.this,CashierAdditionalFood.class);
+                    if (getIntent()!=null){
+                        String orderId = getIntent().getStringExtra("orderId");
+                        addMenu.putExtra("orderId",orderId);
+                    }
+                    startActivity(addMenu);
+                }
+            });
+            confirm.show();
         });
 
         btnCancelOrder.setOnClickListener(view -> {

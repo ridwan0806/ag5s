@@ -104,14 +104,12 @@ public class CashierProcess extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = firebaseUser.getUid();
         dbUser = root.child("Users").child(userId);
-//        dbOrder = root.child("Orders");
 
         dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 branchName = snapshot.child("branch").getValue(String.class);
                 userName = snapshot.child("username").getValue(String.class);
-//                dbOrder = root.child("Orders").child(branchName);
 
                 DatabaseReference serverTime = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
                 serverTime.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -125,9 +123,7 @@ public class CashierProcess extends Fragment {
 
                         Date resultDate = new Date(estimateServerTime);
                         String orderDate = date.format(resultDate);
-//                        Log.d("TAG",""+orderDate);
                         dbOrder = root.child("Orders").child(branchName).child(orderDate);
-                        Log.d("TAG",""+dbOrder);
 
                         getOrderList();
                     }
