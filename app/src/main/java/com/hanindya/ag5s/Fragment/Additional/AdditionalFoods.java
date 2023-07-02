@@ -252,6 +252,7 @@ public class AdditionalFoods extends Fragment {
                      public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()){
                             Toast.makeText(getContext(), "Ops. Menu ini sudah ada", Toast.LENGTH_SHORT).show();
+                            numberOrder = 1;
                         } else {
                             double subtotal = numberOrder * Double.parseDouble(foodPrice);
 
@@ -264,6 +265,7 @@ public class AdditionalFoods extends Fragment {
 
                             String orderItemId = dbOrder.child(orderId).child("orderItem").push().getKey();
                             dbOrder.child(orderId).child("orderItem").child(orderItemId).setValue(orderItem);
+                            numberOrder = 1;
 
                             // Re-Calculate Subtotal Item & Price (Order Parent)
                             DatabaseReference reference = dbOrder.child(orderId).child("orderItem");
@@ -300,7 +302,6 @@ public class AdditionalFoods extends Fragment {
                      }
                  };
                  checkItemExists.addListenerForSingleValueEvent(listener);
-                 numberOrder = 1;
             }
         });
 
