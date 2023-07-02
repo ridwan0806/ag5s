@@ -1,12 +1,15 @@
 package com.hanindya.ag5s.Fragment.Additional;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +20,24 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.hanindya.ag5s.CashierOrderDetail;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.Model.Foods;
+import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Additional.VHAdditionalFoods;
 import com.hanindya.ag5s.ViewHolder.Foods.VHMasterFoods;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,11 +46,16 @@ import com.hanindya.ag5s.ViewHolder.Foods.VHMasterFoods;
  */
 public class AdditionalFoods extends Fragment {
     String orderId = "";
+    String orderDate = "";
+
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ProgressBar progressBar;
     FirebaseRecyclerAdapter<Foods, VHAdditionalFoods> adapter;
-    DatabaseReference root,dbFoods;
+
+    DatabaseReference root,dbFoods,dbUser,dbOrder;
+    FirebaseUser firebaseUser;
+    String userId,branchName,userName;
 
     ImageView plusBtn,minusBtn;
     TextView qty;
@@ -98,13 +117,54 @@ public class AdditionalFoods extends Fragment {
         root = FirebaseDatabase.getInstance().getReference();
         dbFoods = root.child("Foods");
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        userId = firebaseUser.getUid();
+
+        DatabaseReference serverTime = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+        serverTime.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               long serverTimeOffset = snapshot.getValue(Long.class);
+               long estimateServerTime = System.currentTimeMillis()+serverTimeOffset;
+
+               SimpleDateFormat date;
+               date = new SimpleDateFormat("yyyy-MM-dd");
+
+               Date resultDate = new Date(estimateServerTime);
+               orderDate = date.format(resultDate);
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+               throw error.toException();
+           }
+       });
+
+        dbUser = root.child("Users").child(userId);
+        dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                branchName = snapshot.child("branch").getValue(String.class);
+                userName = snapshot.child("username").getValue(String.class);
+                dbOrder = root.child("Orders").child(branchName).child(orderDate);
+                getMasterFoods();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        });
+
+//        dbOrder = root.child("Orders").child(branchName).child(orderDate);
+
         return layout;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getMasterFoods();
+//        getMasterFoods();
     }
 
     private void getMasterFoods() {
@@ -150,6 +210,100 @@ public class AdditionalFoods extends Fragment {
     }
 
     private void addAdditionalFood(String foodId, String foodName, String foodPrice) {
+        AlertDialog.Builder setQty = new AlertDialog.Builder(getContext());
+        setQty.setCancelable(false);
+        setQty.setMessage("Masukan Qty Pesanan");
 
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View layout = layoutInflater.inflate(R.layout.dialog_edit_qty,null);
+        setQty.setView(layout);
+
+        minusBtn = layout.findViewById(R.id.btnMinus);
+        plusBtn = layout.findViewById(R.id.btnPlus);
+        qty = layout.findViewById(R.id.txtQty);
+
+        minusBtn.setOnClickListener(view -> {
+            if (numberOrder > 1){
+                int newNumberOrder = Integer.parseInt(qty.getText().toString());
+                numberOrder = newNumberOrder - 1;
+                qty.setText(String.valueOf(numberOrder));
+            }
+        });
+
+        plusBtn.setOnClickListener(view -> {
+            numberOrder = numberOrder + 1;
+            qty.setText(String.valueOf(numberOrder));
+        });
+
+        setQty.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                numberOrder = 1;
+            }
+        });
+
+        setQty.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                 Query checkItemExists = dbOrder.child(orderId).child("orderItem").orderByChild("foodId").equalTo(foodId);
+                 ValueEventListener listener = new ValueEventListener() {
+                     @Override
+                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            Toast.makeText(getContext(), "Ops. Menu ini sudah ada", Toast.LENGTH_SHORT).show();
+                        } else {
+                            double subtotal = numberOrder * Double.parseDouble(foodPrice);
+
+                            OrderItem orderItem = new OrderItem();
+                            orderItem.setFoodId(foodId);
+                            orderItem.setFoodName(foodName);
+                            orderItem.setPrice(Double.parseDouble(foodPrice));
+                            orderItem.setQty(numberOrder);
+                            orderItem.setSubtotal(subtotal);
+
+                            String orderItemId = dbOrder.child(orderId).child("orderItem").push().getKey();
+                            dbOrder.child(orderId).child("orderItem").child(orderItemId).setValue(orderItem);
+
+                            // Re-Calculate Subtotal Item & Price (Order Parent)
+                            DatabaseReference reference = dbOrder.child(orderId).child("orderItem");
+                            ValueEventListener valueEventListener = new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    int newSubtotalItem = 0;
+                                    double newSubtotalPrice = 0;
+
+                                    for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                                        int totalItem = dataSnapshot.child("qty").getValue(int.class);
+                                        double totalPrice = Double.valueOf(dataSnapshot.child("subtotal").getValue(long.class));
+
+                                        newSubtotalItem = newSubtotalItem + totalItem;
+                                        newSubtotalPrice = newSubtotalPrice + totalPrice;
+                                    }
+                                    dbOrder.child(orderId).child("subtotalItem").setValue(newSubtotalItem);
+                                    dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalPrice);
+                                    Toast.makeText(getContext(), "Sukses. Item ditambahkan", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    throw error.toException();
+                                }
+                            };
+                            reference.addListenerForSingleValueEvent(valueEventListener);
+                        }
+                     }
+
+                     @Override
+                     public void onCancelled(@NonNull DatabaseError error) {
+                        throw error.toException();
+                     }
+                 };
+                 checkItemExists.addListenerForSingleValueEvent(listener);
+                 numberOrder = 1;
+            }
+        });
+
+        setQty.show();
     }
 }
