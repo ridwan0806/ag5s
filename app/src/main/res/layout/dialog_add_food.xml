@@ -33,6 +33,7 @@
                 android:id="@+id/etNewFoodName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textCapWords"
                 android:hint="Nama Menu" />
         </com.google.android.material.textfield.TextInputLayout>
 

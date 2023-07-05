@@ -21,7 +21,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            app:helperText="Ubah Nama Item"
+            app:helperText="Ubah Nama Menu"
             app:helperTextEnabled="true"
             app:helperTextTextColor="@color/blue"
             app:endIconMode="clear_text"
@@ -36,8 +36,8 @@
                 android:id="@+id/etFragmentFoodEditName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nama Item"
-                android:inputType="text" />
+                android:hint="Nama Menu"
+                android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

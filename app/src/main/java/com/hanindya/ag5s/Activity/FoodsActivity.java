@@ -132,10 +132,7 @@ public class FoodsActivity extends AppCompatActivity {
                         } else if (itemId == R.id.food_category_drink){
                             categoryFood = "Minuman";
                             foodCategory.setText("Minuman");
-                        } else if (itemId == R.id.food_category_additional){
-                            categoryFood = "Tambahan";
-                            foodCategory.setText("Tambahan");
-                        } else {
+                        }  else {
                             categoryFood = "unSelect";
                         }
                         return true;

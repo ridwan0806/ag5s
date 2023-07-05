@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         logout = findViewById(R.id.ic_logout);
 
         food.setOnClickListener(view -> {
-            Intent i = new Intent(MainActivity.this, FoodsActivity.class);
+            Intent i = new Intent(MainActivity.this, MenuActivity.class);
             startActivity(i);
         });
 

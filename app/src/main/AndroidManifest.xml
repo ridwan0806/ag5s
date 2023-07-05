@@ -12,6 +12,9 @@
         android:theme="@style/Theme.AG5S"
         tools:targetApi="31">
         <activity
+            android:name=".MenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".CashierOrderDetail"
             android:exported="false" />
         <activity
