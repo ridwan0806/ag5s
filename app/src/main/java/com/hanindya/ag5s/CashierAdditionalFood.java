@@ -20,23 +20,17 @@ import com.hanindya.ag5s.Fragment.Foods.MasterFoodAdditional;
 import com.hanindya.ag5s.Fragment.Foods.MasterFoods;
 
 public class CashierAdditionalFood extends AppCompatActivity {
-    String orderId = "";
-    DatabaseReference root,dbFoods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cashier_additional_food);
 
-        root = FirebaseDatabase.getInstance().getReference();
-        dbFoods = root.child("Foods");
-
         TabLayout tabLayout = findViewById(R.id.tabAdditionalMenu);
         ViewPager viewPager = findViewById(R.id.viewPagerAdditionalMenu);
 
         tabLayout.addTab(tabLayout.newTab().setText("Makanan"));
         tabLayout.addTab(tabLayout.newTab().setText("Minuman"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tambahan"));
 
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(),FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull
@@ -49,9 +43,6 @@ public class CashierAdditionalFood extends AppCompatActivity {
                     case 1:
                         AdditionalDrinks additionalDrinks = new AdditionalDrinks();
                         return additionalDrinks;
-                    case 2:
-                        AdditionalOthers additionalOthers = new AdditionalOthers();
-                        return additionalOthers;
                     default:
                         return null;
                 }

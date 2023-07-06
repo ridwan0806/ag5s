@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.CashierOrderDetail;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.Model.Foods;
+import com.hanindya.ag5s.Model.Menu;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Additional.VHAdditionalFoods;
@@ -51,7 +52,7 @@ public class AdditionalFoods extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ProgressBar progressBar;
-    FirebaseRecyclerAdapter<Foods, VHAdditionalFoods> adapter;
+    FirebaseRecyclerAdapter<Menu, VHAdditionalFoods> adapter;
 
     DatabaseReference root,dbFoods,dbUser,dbOrder;
     FirebaseUser firebaseUser;
@@ -115,7 +116,6 @@ public class AdditionalFoods extends Fragment {
         progressBar = layout.findViewById(R.id.pb_additional_foods);
 
         root = FirebaseDatabase.getInstance().getReference();
-        dbFoods = root.child("Foods");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = firebaseUser.getUid();
@@ -147,6 +147,7 @@ public class AdditionalFoods extends Fragment {
                 branchName = snapshot.child("branch").getValue(String.class);
                 userName = snapshot.child("username").getValue(String.class);
                 dbOrder = root.child("Orders").child(branchName).child(orderDate);
+                dbFoods = root.child("Menu").child(branchName).child("Foods");
                 getMasterFoods();
             }
 
@@ -155,8 +156,6 @@ public class AdditionalFoods extends Fragment {
                 throw error.toException();
             }
         });
-
-//        dbOrder = root.child("Orders").child(branchName).child(orderDate);
 
         return layout;
     }
@@ -168,20 +167,19 @@ public class AdditionalFoods extends Fragment {
     }
 
     private void getMasterFoods() {
-        FirebaseRecyclerOptions<Foods> list =
-                new FirebaseRecyclerOptions.Builder<Foods>()
-                        .setQuery(dbFoods.orderByChild("foodCategory").equalTo("Makanan"),Foods.class)
+        FirebaseRecyclerOptions<Menu> list =
+                new FirebaseRecyclerOptions.Builder<Menu>()
+                        .setQuery(dbFoods.orderByChild("name"),Menu.class)
                         .build();
-        adapter = new FirebaseRecyclerAdapter<Foods, VHAdditionalFoods>(list) {
+        adapter = new FirebaseRecyclerAdapter<Menu, VHAdditionalFoods>(list) {
             @Override
-            protected void onBindViewHolder(@NonNull VHAdditionalFoods holder, int position, @NonNull Foods model) {
+            protected void onBindViewHolder(@NonNull VHAdditionalFoods holder, int position, @NonNull Menu model) {
                 String foodId = adapter.getRef(position).getKey();
-                String foodName = adapter.getItem(position).getFoodName();
-                String foodPrice = String.valueOf(adapter.getItem(position).getFoodPrice());
+                String foodName = adapter.getItem(position).getName();
+                String foodPrice = String.valueOf(adapter.getItem(position).getPrice());
 
-                holder.txtAdditionalFoodName.setText(model.getFoodName());
-                holder.txtAdditionalFoodPrice.setText(String.valueOf(model.getFoodPrice()));
-                holder.txtAdditionalFoodCategory.setText(model.getFoodCategory());
+                holder.txtAdditionalFoodName.setText(model.getName());
+                holder.txtAdditionalFoodPrice.setText(String.valueOf(model.getPrice()));
 
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override

@@ -29,6 +29,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.Model.Foods;
+import com.hanindya.ag5s.Model.Menu;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Additional.VHAdditionalDrinks;
@@ -49,7 +50,7 @@ public class AdditionalDrinks extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ProgressBar progressBar;
-    FirebaseRecyclerAdapter<Foods, VHAdditionalDrinks> adapter;
+    FirebaseRecyclerAdapter<Menu, VHAdditionalDrinks> adapter;
 
     DatabaseReference root,dbFoods,dbUser,dbOrder;
     FirebaseUser firebaseUser;
@@ -112,7 +113,6 @@ public class AdditionalDrinks extends Fragment {
         progressBar = layout.findViewById(R.id.pb_additional_drinks);
 
         root = FirebaseDatabase.getInstance().getReference();
-        dbFoods = root.child("Foods");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = firebaseUser.getUid();
@@ -144,6 +144,7 @@ public class AdditionalDrinks extends Fragment {
                 branchName = snapshot.child("branch").getValue(String.class);
                 userName = snapshot.child("username").getValue(String.class);
                 dbOrder = root.child("Orders").child(branchName).child(orderDate);
+                dbFoods = root.child("Menu").child(branchName).child("Drinks");
                 getMasterDrinks();
             }
 
@@ -159,25 +160,24 @@ public class AdditionalDrinks extends Fragment {
     }
 
     private void getMasterDrinks() {
-        FirebaseRecyclerOptions<Foods> list =
-                new FirebaseRecyclerOptions.Builder<Foods>()
-                        .setQuery(dbFoods.orderByChild("foodCategory").equalTo("Minuman"),Foods.class)
+        FirebaseRecyclerOptions<Menu> list =
+                new FirebaseRecyclerOptions.Builder<Menu>()
+                        .setQuery(dbFoods.orderByChild("name"),Menu.class)
                         .build();
-        adapter = new FirebaseRecyclerAdapter<Foods, VHAdditionalDrinks>(list) {
+        adapter = new FirebaseRecyclerAdapter<Menu, VHAdditionalDrinks>(list) {
             @Override
-            protected void onBindViewHolder(@NonNull VHAdditionalDrinks holder, int position, @NonNull Foods model) {
-                String foodId = adapter.getRef(position).getKey();
-                String foodName = adapter.getItem(position).getFoodName();
-                String foodPrice = String.valueOf(adapter.getItem(position).getFoodPrice());
+            protected void onBindViewHolder(@NonNull VHAdditionalDrinks holder, int position, @NonNull Menu model) {
+                String drinkId = adapter.getRef(position).getKey();
+                String drinkName = adapter.getItem(position).getName();
+                String drinkPrice = String.valueOf(adapter.getItem(position).getPrice());
 
-                holder.txtAdditionalFoodName.setText(model.getFoodName());
-                holder.txtAdditionalFoodPrice.setText(String.valueOf(model.getFoodPrice()));
-                holder.txtAdditionalFoodCategory.setText(model.getFoodCategory());
+                holder.txtAdditionalFoodName.setText(model.getName());
+                holder.txtAdditionalFoodPrice.setText(String.valueOf(model.getPrice()));
 
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        addAdditionalDrink(foodId,foodName,foodPrice);
+                        addAdditionalDrink(drinkId,drinkName,drinkPrice);
                     }
                 });
             }
@@ -200,7 +200,7 @@ public class AdditionalDrinks extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void addAdditionalDrink(String foodId, String foodName, String foodPrice) {
+    private void addAdditionalDrink(String drinkId, String drinkName, String drinkPrice) {
         AlertDialog.Builder setQty = new AlertDialog.Builder(getContext());
         setQty.setCancelable(false);
         setQty.setMessage("Masukan Qty Pesanan");
@@ -237,7 +237,7 @@ public class AdditionalDrinks extends Fragment {
         setQty.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Query checkItemExists = dbOrder.child(orderId).child("orderItem").orderByChild("foodId").equalTo(foodId);
+                Query checkItemExists = dbOrder.child(orderId).child("orderItem").orderByChild("drinkId").equalTo(drinkId);
                 ValueEventListener listener = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -245,12 +245,12 @@ public class AdditionalDrinks extends Fragment {
                             Toast.makeText(getContext(), "Ops. Menu ini sudah ada", Toast.LENGTH_SHORT).show();
                             numberOrder = 1;
                         } else {
-                            double subtotal = numberOrder * Double.parseDouble(foodPrice);
+                            double subtotal = numberOrder * Double.parseDouble(drinkPrice);
 
                             OrderItem orderItem = new OrderItem();
-                            orderItem.setFoodId(foodId);
-                            orderItem.setFoodName(foodName);
-                            orderItem.setPrice(Double.parseDouble(foodPrice));
+                            orderItem.setFoodId(drinkId);
+                            orderItem.setFoodName(drinkName);
+                            orderItem.setPrice(Double.parseDouble(drinkPrice));
                             orderItem.setQty(numberOrder);
                             orderItem.setSubtotal(subtotal);
 
