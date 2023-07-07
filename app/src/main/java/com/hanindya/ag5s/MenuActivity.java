@@ -8,10 +8,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hanindya.ag5s.Activity.CartActivity;
 import com.hanindya.ag5s.Fragment.Menu.MenuDrinks;
 import com.hanindya.ag5s.Fragment.Menu.MenuFoods;
 import com.hanindya.ag5s.Model.Menu;
@@ -49,12 +52,18 @@ public class MenuActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabMenu);
         ViewPager viewPager = findViewById(R.id.viewPagerMenu);
-        FloatingActionButton addMenu = findViewById(R.id.fbAddMenu);
+        FloatingActionButton btnAddMenu = findViewById(R.id.fbAddMenu);
+        FloatingActionButton cart = findViewById(R.id.fbCart);
+
+        cart.setOnClickListener(view -> {
+            Intent cartActivity = new Intent(MenuActivity.this, CartActivity.class);
+            startActivity(cartActivity);
+        });
 
         tabLayout.addTab(tabLayout.newTab().setText("Makanan"));
         tabLayout.addTab(tabLayout.newTab().setText("Minuman"));
 
-        addMenu.setOnClickListener(view -> {
+        btnAddMenu.setOnClickListener(view -> {
             addNewMenu();
         });
 
@@ -183,8 +192,12 @@ public class MenuActivity extends AppCompatActivity {
                             createdDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date dateNow = new Date(estimateServerTime);
 
+                            String upperText;
+                            upperText = menuName.getText().toString();
+                            upperText = upperText.toUpperCase();
+
                             Menu menu = new Menu();
-                            menu.setName(menuName.getText().toString());
+                            menu.setName(upperText);
                             menu.setPrice(Double.parseDouble(menuPrice.getText().toString()));
                             menu.setCategory(category);
                             menu.setCreatedDateTime(createdDateTime.format(dateNow));

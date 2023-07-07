@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="32dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@string/daftarMakanan"
                 android:textColor="@color/white"
@@ -31,6 +31,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -63,8 +64,10 @@
                     android:layout_marginBottom="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tabMenu" />
+                    app:layout_constraintTop_toBottomOf="@+id/tabMenu"
+                    app:layout_constraintVertical_bias="0.0" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
@@ -75,11 +78,22 @@
         android:id="@+id/fbAddMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="32dp"
         android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:outlineSpotShadowColor="@color/blue"
-        app:srcCompat="@drawable/ic_button_add_50" />
+        app:srcCompat="@drawable/ic_add_white_no_circle" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/fbAddMenu"
+        app:layout_constraintEnd_toEndOf="@+id/fbAddMenu"
+        app:layout_constraintStart_toStartOf="@+id/fbAddMenu"
+        app:srcCompat="@drawable/ic_cart" />
 </androidx.constraintlayout.widget.ConstraintLayout>

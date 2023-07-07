@@ -208,13 +208,13 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/ic_cashier"
+                            android:id="@+id/ic_cost"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center">
 
                             <ImageView
-                                android:id="@+id/imgCircleCashier"
+                                android:id="@+id/imgCircleCost"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -224,22 +224,21 @@
                                 app:srcCompat="@drawable/ic_blue" />
 
                             <ImageView
-                                android:id="@+id/imgReport"
+                                android:id="@+id/imgCost"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="@+id/imgCircleCashier"
-                                app:layout_constraintStart_toStartOf="@+id/imgCircleCashier"
-                                app:layout_constraintTop_toTopOf="@+id/imgCircleCashier"
-                                app:srcCompat="@drawable/ic_money" />
+                                app:layout_constraintEnd_toEndOf="@+id/imgCircleCost"
+                                app:layout_constraintStart_toStartOf="@+id/imgCircleCost"
+                                app:layout_constraintTop_toTopOf="@+id/imgCircleCost"
+                                app:srcCompat="@drawable/ic_5" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
-                            android:id="@+id/txtCashierDashboard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="@string/kasir"
+                            android:text="Beban Usaha"
                             android:textAlignment="center"
                             android:textColor="#000000"
                             android:textSize="12sp"
@@ -254,11 +253,12 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
+                            android:id="@+id/ic_information"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center">
 
                             <ImageView
-                                android:id="@+id/imgCirclePengeluaran"
+                                android:id="@+id/imgCircleInformation"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -272,18 +272,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="@+id/imgCirclePengeluaran"
-                                app:layout_constraintStart_toStartOf="@+id/imgCirclePengeluaran"
-                                app:layout_constraintTop_toTopOf="@+id/imgCirclePengeluaran"
-                                app:srcCompat="@drawable/ic_5" />
+                                app:layout_constraintEnd_toEndOf="@+id/imgCircleInformation"
+                                app:layout_constraintStart_toStartOf="@+id/imgCircleInformation"
+                                app:layout_constraintTop_toTopOf="@+id/imgCircleInformation"
+                                app:srcCompat="@drawable/ic_6" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
-                            android:id="@+id/txtPengeluaranDashboard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="@string/pengeluaran"
+                            android:text="Informasi"
                             android:textAlignment="center"
                             android:textColor="#000000"
                             android:textSize="12sp"
@@ -305,7 +304,7 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/ic_cartOrder"
+                            android:id="@+id/ic_cashier"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center">
@@ -328,7 +327,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/imgCircleMenuBook"
                                 app:layout_constraintStart_toStartOf="@+id/imgCircleMenuBook"
                                 app:layout_constraintTop_toTopOf="@+id/imgCircleMenuBook"
-                                app:srcCompat="@drawable/ic_cart" />
+                                app:srcCompat="@drawable/ic_money" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
@@ -336,7 +335,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Stok"
+                            android:text="Kasir"
                             android:textAlignment="center"
                             android:textColor="#000000"
                             android:textSize="12sp"

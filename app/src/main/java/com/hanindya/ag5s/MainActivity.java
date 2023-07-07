@@ -28,7 +28,7 @@ import com.hanindya.ag5s.Activity.FoodsActivity;
 import com.hanindya.ag5s.Activity.UserActivity;
 
 public class MainActivity extends AppCompatActivity {
-    ConstraintLayout food,supplies,cashier,cartOrder,userPage,logout;
+    ConstraintLayout food,supplies,cashier,userPage,logout;
     TextView userName,userBranch;
     FirebaseUser firebaseUser;
     DatabaseReference root,dbUser;
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         food = findViewById(R.id.ic_food);
         supplies = findViewById(R.id.ic_supplies);
         cashier = findViewById(R.id.ic_cashier);
-        cartOrder = findViewById(R.id.ic_cartOrder);
         userPage = findViewById(R.id.ic_user);
         logout = findViewById(R.id.ic_logout);
 
@@ -75,11 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
         cashier.setOnClickListener(view -> {
             Intent i = new Intent(MainActivity.this, CashierActivity.class);
-            startActivity(i);
-        });
-
-        cartOrder.setOnClickListener(view -> {
-            Intent i = new Intent(MainActivity.this, CartActivity.class);
             startActivity(i);
         });
 
