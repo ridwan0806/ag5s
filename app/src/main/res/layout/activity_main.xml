@@ -44,7 +44,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/imageView5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView5"
-                app:layout_constraintVertical_bias="0.41000003" />
+                app:layout_constraintVertical_bias="0.26" />
 
             <TextView
                 android:id="@+id/txtUsername"
@@ -238,7 +238,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Beban Usaha"
+                            android:text="Pengeluaran"
                             android:textAlignment="center"
                             android:textColor="#000000"
                             android:textSize="12sp"

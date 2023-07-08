@@ -23,7 +23,7 @@ import com.hanindya.ag5s.Activity.CashierActivity;
 import com.hanindya.ag5s.Activity.UserActivity;
 
 public class MainActivity extends AppCompatActivity {
-    ConstraintLayout food,supplies,cashier,userPage,logout;
+    ConstraintLayout food,supplies,cost,cashier,userPage,logout;
     TextView userName,userBranch;
     FirebaseUser firebaseUser;
     DatabaseReference root,dbUser;
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         
         food = findViewById(R.id.ic_food);
         supplies = findViewById(R.id.ic_supplies);
+        cost = findViewById(R.id.ic_cost);
         cashier = findViewById(R.id.ic_cashier);
         userPage = findViewById(R.id.ic_user);
         logout = findViewById(R.id.ic_logout);
@@ -65,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
         supplies.setOnClickListener(view -> {
             Toast.makeText(this, "supplies", Toast.LENGTH_SHORT).show();
+        });
+
+        cost.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, CostActivity.class);
+            startActivity(i);
         });
 
         cashier.setOnClickListener(view -> {
