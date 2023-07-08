@@ -5,13 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hanindya.ag5s.Activity.CartActivity;
 import com.hanindya.ag5s.Activity.CashierActivity;
-import com.hanindya.ag5s.Activity.FoodsActivity;
 import com.hanindya.ag5s.Activity.UserActivity;
 
 public class MainActivity extends AppCompatActivity {

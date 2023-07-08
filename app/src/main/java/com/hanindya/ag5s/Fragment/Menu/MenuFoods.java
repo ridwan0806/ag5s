@@ -36,7 +36,6 @@ import com.hanindya.ag5s.Model.Foods;
 import com.hanindya.ag5s.Model.Menu;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
-import com.hanindya.ag5s.ViewHolder.Foods.VHMasterFoods;
 import com.hanindya.ag5s.ViewHolder.Menu.VHMenuFoods;
 
 import java.math.BigDecimal;

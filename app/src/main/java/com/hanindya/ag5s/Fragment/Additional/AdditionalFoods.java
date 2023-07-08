@@ -30,12 +30,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.CashierOrderDetail;
 import com.hanindya.ag5s.Interface.ItemClickListener;
-import com.hanindya.ag5s.Model.Foods;
 import com.hanindya.ag5s.Model.Menu;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Additional.VHAdditionalFoods;
-import com.hanindya.ag5s.ViewHolder.Foods.VHMasterFoods;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

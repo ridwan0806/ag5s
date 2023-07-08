@@ -10,14 +10,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.hanindya.ag5s.Fragment.Additional.AdditionalDrinks;
 import com.hanindya.ag5s.Fragment.Additional.AdditionalFoods;
-import com.hanindya.ag5s.Fragment.Additional.AdditionalOthers;
-import com.hanindya.ag5s.Fragment.Foods.MasterDrinks;
-import com.hanindya.ag5s.Fragment.Foods.MasterFoodAdditional;
-import com.hanindya.ag5s.Fragment.Foods.MasterFoods;
 
 public class CashierAdditionalFood extends AppCompatActivity {
 
