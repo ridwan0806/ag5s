@@ -12,16 +12,16 @@
         android:theme="@style/Theme.AG5S"
         tools:targetApi="31">
         <activity
-            android:name=".CostActivity"
+            android:name=".Activity.CostActivity"
             android:exported="false" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".Activity.MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".CashierOrderDetail"
+            android:name=".Activity.CashierOrderDetail"
             android:exported="false" />
         <activity
-            android:name=".CashierAdditionalFood"
+            android:name=".Activity.CashierAdditionalFood"
             android:exported="false" />
         <activity
             android:name=".Activity.CashierActivity"

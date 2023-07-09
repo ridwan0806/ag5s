@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.Activity.CashierActivity;
+import com.hanindya.ag5s.Activity.CostActivity;
+import com.hanindya.ag5s.Activity.MenuActivity;
 import com.hanindya.ag5s.Activity.UserActivity;
 
 public class MainActivity extends AppCompatActivity {

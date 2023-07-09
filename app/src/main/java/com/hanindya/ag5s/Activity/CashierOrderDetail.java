@@ -1,4 +1,4 @@
-package com.hanindya.ag5s;
+package com.hanindya.ag5s.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -10,7 +10,6 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,10 +29,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hanindya.ag5s.Activity.CashierActivity;
 import com.hanindya.ag5s.Helper.MoneyTextWatcher;
 import com.hanindya.ag5s.Model.Order;
 import com.hanindya.ag5s.Model.OrderItem;
+import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.VHOrderDetail;
 
 import java.math.BigDecimal;

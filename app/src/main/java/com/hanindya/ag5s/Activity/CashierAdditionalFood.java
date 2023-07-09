@@ -1,4 +1,4 @@
-package com.hanindya.ag5s;
+package com.hanindya.ag5s.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.hanindya.ag5s.Fragment.Additional.AdditionalDrinks;
 import com.hanindya.ag5s.Fragment.Additional.AdditionalFoods;
+import com.hanindya.ag5s.R;
 
 public class CashierAdditionalFood extends AppCompatActivity {
 

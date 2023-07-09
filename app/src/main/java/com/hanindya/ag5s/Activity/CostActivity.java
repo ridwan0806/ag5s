@@ -1,4 +1,4 @@
-package com.hanindya.ag5s;
+package com.hanindya.ag5s.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ import com.hanindya.ag5s.Helper.MoneyTextWatcher;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.Model.Cost;
 import com.hanindya.ag5s.Model.CostReference;
-import com.hanindya.ag5s.ViewHolder.Menu.VHMenuFoods;
+import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.VHCostRef;
 
 import java.math.BigDecimal;

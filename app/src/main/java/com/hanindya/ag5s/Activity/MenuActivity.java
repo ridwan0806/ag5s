@@ -1,4 +1,4 @@
-package com.hanindya.ag5s;
+package com.hanindya.ag5s.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,10 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hanindya.ag5s.Activity.CartActivity;
 import com.hanindya.ag5s.Fragment.Menu.MenuDrinks;
 import com.hanindya.ag5s.Fragment.Menu.MenuFoods;
 import com.hanindya.ag5s.Model.Menu;
+import com.hanindya.ag5s.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
