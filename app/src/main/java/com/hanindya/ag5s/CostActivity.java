@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,19 +29,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hanindya.ag5s.Helper.MoneyTextWatcher;
 import com.hanindya.ag5s.Interface.ItemClickListener;
+import com.hanindya.ag5s.Model.Cost;
 import com.hanindya.ag5s.Model.CostReference;
 import com.hanindya.ag5s.ViewHolder.Menu.VHMenuFoods;
 import com.hanindya.ag5s.ViewHolder.VHCostRef;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class CostActivity extends AppCompatActivity {
-    DatabaseReference dbCostRef;
+    DatabaseReference dbCostRef,dbCost;
     String userId,branchName,userName;
-    TextView costRefName,costRefDate;
+    TextView costRefName,costRefDate,costRefAttachment;
+    EditText costRefSubtotal,costRefNotes;
     FirebaseRecyclerAdapter<CostReference, VHCostRef>adapter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
@@ -62,6 +67,7 @@ public class CostActivity extends AppCompatActivity {
                 branchName = snapshot.child("branch").getValue(String.class);
                 userName = snapshot.child("username").getValue(String.class);
                 dbCostRef = root.child("CostReference").child(branchName);
+                dbCost = root.child("Cost").child(branchName);
                 getListCostRef();
             }
 
@@ -137,6 +143,10 @@ public class CostActivity extends AppCompatActivity {
         createCostDaily.setView(layout);
         
         costRefDate = layout.findViewById(R.id.txt_cost_add_date);
+        costRefSubtotal = layout.findViewById(R.id.txt_cost_add_subtotal);
+        costRefSubtotal.addTextChangedListener(new MoneyTextWatcher(costRefSubtotal));
+        costRefNotes = layout.findViewById(R.id.txt_cost_add_notes);
+        costRefAttachment = layout.findViewById(R.id.txt_cost_add_attachment);
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -180,7 +190,44 @@ public class CostActivity extends AppCompatActivity {
         createCostDaily.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(CostActivity.this, "simpan", Toast.LENGTH_SHORT).show();
+                if (costRefDate.getText().equals("--Pilih Tanggal--")){
+                    Toast.makeText(CostActivity.this, "GAGAL. Tanggal Error", Toast.LENGTH_SHORT).show();
+                } else if(costRefSubtotal.getText().toString().equals("Rp 0")){
+                    Toast.makeText(CostActivity.this, "GAGAL. Subtotal Error", Toast.LENGTH_SHORT).show();
+                } else {
+                    BigDecimal value = MoneyTextWatcher.parseCurrencyValue(costRefSubtotal.getText().toString());
+                    String subtotalString = String.valueOf(value);
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            long serverTimeOffset = snapshot.getValue(Long.class);
+                            long estimateServerTime = System.currentTimeMillis()+serverTimeOffset;
+
+                            SimpleDateFormat createdDateTime;
+                            createdDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Date dateNow = new Date(estimateServerTime);
+
+                            Cost cost = new Cost();
+                            cost.setName(name);
+                            cost.setSubtotal(Double.parseDouble(subtotalString));
+                            cost.setDate(costRefDate.getText().toString());
+                            cost.setNotes(costRefNotes.getText().toString());
+                            cost.setUrlAttachment("");
+                            cost.setCreatedBy(userName);
+                            cost.setCreatedDateTime(createdDateTime.format(dateNow));
+                            
+                            dbCost.child(costRefDate.getText().toString()).push().setValue(cost);
+                            Toast.makeText(CostActivity.this, "Sukses. "+name+" berhasil diinput", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            throw error.toException();
+                        }
+                    });
+                }
             }
         });
 
