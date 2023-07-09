@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.Activity.CashierActivity;
 import com.hanindya.ag5s.Activity.CostActivity;
 import com.hanindya.ag5s.Activity.MenuActivity;
+import com.hanindya.ag5s.Activity.SuppliesActivity;
 import com.hanindya.ag5s.Activity.UserActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         supplies.setOnClickListener(view -> {
-            Toast.makeText(this, "supplies", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(MainActivity.this, SuppliesActivity.class);
+            startActivity(i);
         });
 
         cost.setOnClickListener(view -> {

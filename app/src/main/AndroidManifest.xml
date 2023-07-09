@@ -12,6 +12,9 @@
         android:theme="@style/Theme.AG5S"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.SuppliesActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.CostActivity"
             android:exported="false" />
         <activity

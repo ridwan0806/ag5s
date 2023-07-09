@@ -1,16 +1,18 @@
 package com.hanindya.ag5s.Model;
 
 public class Supplies {
-    private String name,category,createdBy,createdDateTime;
+    private String name,category,createdBy,createdDateTime,editedBy,editedDateTime;
 
     public Supplies() {
     }
 
-    public Supplies(String name, String category, String createdBy, String createdDateTime) {
+    public Supplies(String name, String category, String createdBy, String createdDateTime, String editedBy, String editedDateTime) {
         this.name = name;
         this.category = category;
         this.createdBy = createdBy;
         this.createdDateTime = createdDateTime;
+        this.editedBy = editedBy;
+        this.editedDateTime = editedDateTime;
     }
 
     public String getName() {
@@ -43,5 +45,21 @@ public class Supplies {
 
     public void setCreatedDateTime(String createdDateTime) {
         this.createdDateTime = createdDateTime;
+    }
+
+    public String getEditedBy() {
+        return editedBy;
+    }
+
+    public void setEditedBy(String editedBy) {
+        this.editedBy = editedBy;
+    }
+
+    public String getEditedDateTime() {
+        return editedDateTime;
+    }
+
+    public void setEditedDateTime(String editedDateTime) {
+        this.editedDateTime = editedDateTime;
     }
 }

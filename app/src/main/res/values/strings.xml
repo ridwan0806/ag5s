@@ -39,6 +39,10 @@
     <string name="cat_2">Minuman</string>
     <string name="cat_3">Tambahan</string>
 
+    <!--SUPPLIES Type-->
+    <string name="core">Bahan Pokok</string>
+    <string name="ingredients">Bumbu Dapur</string>
+
     <!--CART ACTIVITY-->
     <string name="header_cart">List Menu Pesanan</string>
     <string name="subtotalprice_cart">Total Pembayaran :</string>
