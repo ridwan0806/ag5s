@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Harga Satuan (Opsional)"
+            android:text="Harga Satuan (*wajib diisi)"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,39 +49,51 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="Qty (Opsional)"
+            android:text="Qty (*wajib diisi)"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout9" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout10"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/etAddSuppliesItemMinBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView27">
+            app:layout_constraintStart_toStartOf="@+id/textView27"
+            app:layout_constraintTop_toBottomOf="@+id/textView27"
+            app:srcCompat="@drawable/ic_minus_button_50" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etAddSuppliesItemQty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Qty" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/etAddSuppliesItemQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/etAddSuppliesItemMinBtn"
+            app:layout_constraintStart_toEndOf="@+id/etAddSuppliesItemMinBtn"
+            app:layout_constraintTop_toTopOf="@+id/etAddSuppliesItemMinBtn" />
+
+        <ImageView
+            android:id="@+id/etAddSuppliesItemPlusBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/etAddSuppliesItemQty"
+            app:layout_constraintStart_toEndOf="@+id/etAddSuppliesItemQty"
+            app:layout_constraintTop_toTopOf="@+id/etAddSuppliesItemQty"
+            app:srcCompat="@drawable/ic_button_add_50" />
 
         <TextView
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Satuan (Opsional)"
+            android:layout_marginTop="16dp"
+            android:text="Satuan (*wajib diisi)"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout10" />
+            app:layout_constraintTop_toBottomOf="@+id/etAddSuppliesItemMinBtn" />
 
         <RadioGroup
             android:id="@+id/radioGroup2"
@@ -120,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Catatan Tambahan (Opsional)"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
@@ -149,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Subtotal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />

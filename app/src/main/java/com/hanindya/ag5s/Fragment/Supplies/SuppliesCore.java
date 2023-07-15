@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.Activity.SuppliesActivity;
 import com.hanindya.ag5s.Helper.DatabaseSuppliesOrderItem;
+import com.hanindya.ag5s.Helper.MoneyTextWatcher;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.Model.Menu;
 import com.hanindya.ag5s.Model.Supplies;
@@ -38,6 +41,7 @@ import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Menu.VHMenuFoods;
 import com.hanindya.ag5s.ViewHolder.Supplies.VHSuppliesCore;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -55,8 +59,10 @@ public class SuppliesCore extends Fragment {
     ProgressBar progressBar;
     FirebaseRecyclerAdapter<Supplies, VHSuppliesCore> adapter;
 
-    EditText etSuppliesName,etSuppliesPrice,etSuppliesQty,etSuppliesSubtotal,etSuppliesNotes;
-    TextView tvSuppliesUnits;
+    EditText etSuppliesName,etSuppliesPrice,etSuppliesSubtotal,etSuppliesNotes;
+    ImageView plusBtn,minBtn;
+    int numberOrder = 0;
+    TextView tvSuppliesUnits,tvSuppliesQty;
     String suppliesUnits = "";
 
     // TODO: Rename parameter arguments, choose names that match
@@ -291,9 +297,38 @@ public class SuppliesCore extends Fragment {
         addSuppliesCore.setView(layout);
 
         etSuppliesPrice = layout.findViewById(R.id.etAddSuppliesItemPrice);
-        etSuppliesQty = layout.findViewById(R.id.etAddSuppliesItemQty);
+        etSuppliesPrice.addTextChangedListener(new MoneyTextWatcher(etSuppliesPrice));
         etSuppliesNotes = layout.findViewById(R.id.etAddSuppliesItemNotes);
         etSuppliesSubtotal = layout.findViewById(R.id.etAddSuppliesItemSubtotal);
+        etSuppliesSubtotal.addTextChangedListener(new MoneyTextWatcher(etSuppliesSubtotal));
+
+        minBtn = layout.findViewById(R.id.etAddSuppliesItemMinBtn);
+        plusBtn = layout.findViewById(R.id.etAddSuppliesItemPlusBtn);
+        tvSuppliesQty = layout.findViewById(R.id.etAddSuppliesItemQty);
+
+        plusBtn.setOnClickListener(view -> {
+            numberOrder = numberOrder + 1;
+            tvSuppliesQty.setText(String.valueOf(numberOrder));
+
+            BigDecimal value = MoneyTextWatcher.parseCurrencyValue(etSuppliesPrice.getText().toString());
+            String price = String.valueOf(value);
+
+            int total = numberOrder * Integer.parseInt(price);
+            etSuppliesSubtotal.setText(String.valueOf(total));
+        });
+
+        minBtn.setOnClickListener(view -> {
+            if (numberOrder > 1){
+                numberOrder = numberOrder - 1;
+                tvSuppliesQty.setText(String.valueOf(numberOrder));
+
+                BigDecimal value = MoneyTextWatcher.parseCurrencyValue(etSuppliesPrice.getText().toString());
+                String price = String.valueOf(value);
+
+                int total = numberOrder * Integer.parseInt(price);
+                etSuppliesSubtotal.setText(String.valueOf(total));
+            }
+        });
 
         tvSuppliesUnits = layout.findViewById(R.id.cmbAddSuppliesItemUnits);
         tvSuppliesUnits.setOnClickListener(view -> {
@@ -351,39 +386,43 @@ public class SuppliesCore extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+                numberOrder = 0;
             }
         });
 
         addSuppliesCore.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String price = "";
-                if (etSuppliesPrice.getText().toString().length() == 0){
-                    price = "0";
+                if (etSuppliesPrice.getText().toString().length() == 0 || etSuppliesPrice.getText().toString().equals("Rp 0")){
+                    Toast.makeText(getContext(), "Gagal. Harga Invalid", Toast.LENGTH_SHORT).show();
+                    numberOrder = 0;
+                } else if (numberOrder == 0){
+                    Toast.makeText(getContext(), "Gagal. Qty Invalid", Toast.LENGTH_SHORT).show();
+                    numberOrder = 0;
+                } else if (etSuppliesSubtotal.getText().toString().length() == 0 || etSuppliesSubtotal.getText().toString().equals("Rp 0")){
+                    Toast.makeText(getContext(), "Gagal. Subtotal Invalid", Toast.LENGTH_SHORT).show();
+                    numberOrder = 0;
                 } else {
-                    price = etSuppliesPrice.getText().toString();
-                }
+                    BigDecimal priceValue = MoneyTextWatcher.parseCurrencyValue(etSuppliesPrice.getText().toString());
+                    String price = String.valueOf(priceValue);
 
-                String subtotal = "";
-                if (etSuppliesSubtotal.getText().toString().length() == 0){
-                    subtotal = "0";
-                } else {
-                    subtotal = etSuppliesSubtotal.getText().toString();
-                }
+                    BigDecimal totalValue = MoneyTextWatcher.parseCurrencyValue(etSuppliesSubtotal.getText().toString());
+                    String subtotal = String.valueOf(totalValue);
 
-                DatabaseSuppliesOrderItem db = new DatabaseSuppliesOrderItem(getContext());
-                db.addToCart(new SuppliesOrderItem(
-                        "",
-                        suppliesName,
-                        suppliesCategory,
-                        etSuppliesNotes.getText().toString(),
-                        etSuppliesQty.getText().toString(),
-                        suppliesUnits,
-                        Double.parseDouble(price),
-                        Double.parseDouble(subtotal)
-                ));
-                Toast.makeText(getContext(), "Add Supplies core", Toast.LENGTH_SHORT).show();
-//                db.cleanAll();
+                    DatabaseSuppliesOrderItem db = new DatabaseSuppliesOrderItem(getContext());
+                    db.addToCart(new SuppliesOrderItem(
+                            "",
+                            suppliesName,
+                            suppliesCategory,
+                            etSuppliesNotes.getText().toString(),
+                            String.valueOf(numberOrder),
+                            suppliesUnits,
+                            Double.parseDouble(price),
+                            Double.parseDouble(subtotal)
+                    ));
+                    Toast.makeText(getContext(), suppliesName+" berhasil ditambah", Toast.LENGTH_SHORT).show();
+                    numberOrder = 0;
+                }
             }
         });
 

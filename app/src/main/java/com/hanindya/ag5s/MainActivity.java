@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         userBranch = findViewById(R.id.txtBranch);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        userId = firebaseUser.getUid();
 
         if (firebaseUser != null){
+            userId = firebaseUser.getUid();
             userName.setText(firebaseUser.getDisplayName());
         } else {
             Intent login = new Intent(MainActivity.this,Login.class);
