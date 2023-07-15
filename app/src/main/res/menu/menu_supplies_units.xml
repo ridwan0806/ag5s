@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/suppliesUnitKg"
+        android:title="@string/kg" />
+    <item
+        android:id="@+id/suppliesUnitGram"
+        android:title="@string/gr" />
+    <item
+        android:id="@+id/suppliesUnitOns"
+        android:title="@string/ons" />
+    <item
+        android:id="@+id/suppliesUnitKwintal"
+        android:title="@string/kwintal" />
+    <item
+        android:id="@+id/suppliesUnitKarung"
+        android:title="@string/karung" />
+    <item
+        android:id="@+id/suppliesUnitLiter"
+        android:title="@string/liter" />
+    <item
+        android:id="@+id/suppliesUnitDus"
+        android:title="@string/dus" />
+    <item
+        android:id="@+id/suppliesUnitPotong"
+        android:title="@string/potong" />
+    <item
+        android:id="@+id/suppliesUnitLain"
+        android:title="@string/lainLain" />
+</menu>

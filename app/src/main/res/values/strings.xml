@@ -43,6 +43,19 @@
     <string name="core">Bahan Pokok</string>
     <string name="ingredients">Bumbu Dapur</string>
 
+    <!--Supplies Units Type-->
+    <string name="kg">Kilo Gram (Kg)</string>
+    <string name="gr">Gram (Gr)</string>
+    <string name="ons">Ons</string>
+
+    <string name="kwintal">Kwintal</string>
+    <string name="karung">Karung</string>
+    <string name="liter">Liter</string>
+
+    <string name="dus">Dus / Ball</string>
+    <string name="potong">Potong</string>
+    <string name="lainLain">Lain lain</string>
+
     <!--CART ACTIVITY-->
     <string name="header_cart">List Menu Pesanan</string>
     <string name="subtotalprice_cart">Total Pembayaran :</string>

@@ -1,13 +1,14 @@
 package com.hanindya.ag5s.Model;
 
 public class SuppliesOrderItem {
-    private String name,category,notes,qty,units;
+    private String id,name,category,notes,qty,units;
     double price,subtotal;
 
     public SuppliesOrderItem() {
     }
 
-    public SuppliesOrderItem(String name, String category, String notes, String qty, String units, double price, double subtotal) {
+    public SuppliesOrderItem(String id,String name, String category, String notes, String qty, String units, double price, double subtotal) {
+        this.id = id;
         this.name = name;
         this.category = category;
         this.notes = notes;
@@ -15,6 +16,14 @@ public class SuppliesOrderItem {
         this.units = units;
         this.price = price;
         this.subtotal = subtotal;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

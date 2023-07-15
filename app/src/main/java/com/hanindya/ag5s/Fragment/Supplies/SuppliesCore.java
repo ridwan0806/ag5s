@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -27,9 +28,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hanindya.ag5s.Activity.SuppliesActivity;
+import com.hanindya.ag5s.Helper.DatabaseSuppliesOrderItem;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.Model.Menu;
 import com.hanindya.ag5s.Model.Supplies;
+import com.hanindya.ag5s.Model.SuppliesOrderItem;
 import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Menu.VHMenuFoods;
 import com.hanindya.ag5s.ViewHolder.Supplies.VHSuppliesCore;
@@ -51,7 +55,9 @@ public class SuppliesCore extends Fragment {
     ProgressBar progressBar;
     FirebaseRecyclerAdapter<Supplies, VHSuppliesCore> adapter;
 
-    EditText etSuppliesName;
+    EditText etSuppliesName,etSuppliesPrice,etSuppliesQty,etSuppliesSubtotal,etSuppliesNotes;
+    TextView tvSuppliesUnits;
+    String suppliesUnits = "";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -136,6 +142,7 @@ public class SuppliesCore extends Fragment {
             protected void onBindViewHolder(@NonNull VHSuppliesCore holder, int position, @NonNull Supplies model) {
                 String suppliesId = adapter.getRef(position).getKey();
                 String suppliesName = adapter.getItem(position).getName();
+                String suppliesCategory = adapter.getItem(position).getCategory();
 
                 String categoryValue = model.getCategory();
                 String category = "";
@@ -170,7 +177,7 @@ public class SuppliesCore extends Fragment {
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        addSuppliesCore();
+                        addSuppliesCore(suppliesName,suppliesCategory);
                     }
                 });
             }
@@ -274,7 +281,112 @@ public class SuppliesCore extends Fragment {
         editNameSupplies.show();
     }
 
-    private void addSuppliesCore() {
-        Toast.makeText(getContext(), "Add Supplies core", Toast.LENGTH_SHORT).show();
+    private void addSuppliesCore(String suppliesName, String suppliesCategory) {
+        AlertDialog.Builder addSuppliesCore = new AlertDialog.Builder(getContext());
+        addSuppliesCore.setCancelable(false);
+        addSuppliesCore.setMessage("Tambah "+suppliesName);
+
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View layout = layoutInflater.inflate(R.layout.dialog_add_supplies_item,null);
+        addSuppliesCore.setView(layout);
+
+        etSuppliesPrice = layout.findViewById(R.id.etAddSuppliesItemPrice);
+        etSuppliesQty = layout.findViewById(R.id.etAddSuppliesItemQty);
+        etSuppliesNotes = layout.findViewById(R.id.etAddSuppliesItemNotes);
+        etSuppliesSubtotal = layout.findViewById(R.id.etAddSuppliesItemSubtotal);
+
+        tvSuppliesUnits = layout.findViewById(R.id.cmbAddSuppliesItemUnits);
+        tvSuppliesUnits.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(getContext(),tvSuppliesUnits);
+            popupMenu.getMenuInflater().inflate(R.menu.menu_supplies_units,popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    int itemId = menuItem.getItemId();
+
+                    if (itemId == R.id.suppliesUnitKg){
+                        suppliesUnits = "Kg";
+                        tvSuppliesUnits.setText("Kilo Gram (kg)");
+                    } else if (itemId == R.id.suppliesUnitGram){
+                        suppliesUnits = "Gram";
+                        tvSuppliesUnits.setText("Gram (gr)");
+                    } else if (itemId == R.id.suppliesUnitOns){
+                        suppliesUnits = "Ons";
+                        tvSuppliesUnits.setText("Ons");
+                    }
+
+                    else if (itemId == R.id.suppliesUnitKwintal){
+                        suppliesUnits = "Kwintal";
+                        tvSuppliesUnits.setText("Kwintal");
+                    }
+                    else if (itemId == R.id.suppliesUnitKarung){
+                        suppliesUnits = "Karung";
+                        tvSuppliesUnits.setText("Karung");
+                    }
+                    else if (itemId == R.id.suppliesUnitLiter){
+                        suppliesUnits = "Liter";
+                        tvSuppliesUnits.setText("Liter");
+                    }
+
+                    else if (itemId == R.id.suppliesUnitDus){
+                        suppliesUnits = "Dus";
+                        tvSuppliesUnits.setText("Dus");
+                    }
+                    else if (itemId == R.id.suppliesUnitPotong){
+                        suppliesUnits = "Potong";
+                        tvSuppliesUnits.setText("Potong");
+                    }
+                    else if (itemId == R.id.suppliesUnitLain){
+                        suppliesUnits = "Lain-lain";
+                        tvSuppliesUnits.setText("Lain-lain");
+                    }
+                    return true;
+                }
+            });
+            popupMenu.show();
+        });
+
+        addSuppliesCore.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        addSuppliesCore.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String price = "";
+                if (etSuppliesPrice.getText().toString().length() == 0){
+                    price = "0";
+                } else {
+                    price = etSuppliesPrice.getText().toString();
+                }
+
+                String subtotal = "";
+                if (etSuppliesSubtotal.getText().toString().length() == 0){
+                    subtotal = "0";
+                } else {
+                    subtotal = etSuppliesSubtotal.getText().toString();
+                }
+
+                DatabaseSuppliesOrderItem db = new DatabaseSuppliesOrderItem(getContext());
+                db.addToCart(new SuppliesOrderItem(
+                        "",
+                        suppliesName,
+                        suppliesCategory,
+                        etSuppliesNotes.getText().toString(),
+                        etSuppliesQty.getText().toString(),
+                        suppliesUnits,
+                        Double.parseDouble(price),
+                        Double.parseDouble(subtotal)
+                ));
+                Toast.makeText(getContext(), "Add Supplies core", Toast.LENGTH_SHORT).show();
+//                db.cleanAll();
+            }
+        });
+
+        addSuppliesCore.show();
     }
 }
