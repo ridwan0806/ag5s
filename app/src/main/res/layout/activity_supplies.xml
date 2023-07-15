@@ -20,8 +20,8 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
                 android:fontFamily="sans-serif-light"
                 android:text="List Persediaan (Bahan Baku)"
                 android:textColor="@color/white"
@@ -32,6 +32,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@color/grey"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btnSuppliesAddNew"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_button_blue"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:drawableEnd="@drawable/ic_add_white"
+                    android:paddingEnd="15dp"
+                    android:layout_weight="1"
+                    android:text="Tambah Data" />
+
+                <TextView
+                    android:id="@+id/btnSuppliesViewCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_button_blue"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:drawableEnd="@drawable/ic_cart_24_white"
+                    android:paddingEnd="15dp"
+                    android:layout_weight="1"
+                    android:text="Lihat Pesanan" />
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -48,12 +90,11 @@
                     android:id="@+id/tabSupplies"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/bottom_background"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                     app:tabTextColor="@color/blue" />
 
                 <androidx.viewpager.widget.ViewPager
@@ -73,26 +114,4 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbAddSupplies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_white_no_circle" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbCartSupplies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/fbAddSupplies"
-        app:layout_constraintEnd_toEndOf="@+id/fbAddSupplies"
-        app:layout_constraintStart_toStartOf="@+id/fbAddSupplies"
-        app:srcCompat="@drawable/ic_cart" />
 </androidx.constraintlayout.widget.ConstraintLayout>

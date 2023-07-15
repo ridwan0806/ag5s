@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -70,11 +71,16 @@ public class SuppliesActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabSupplies);
         ViewPager viewPager = findViewById(R.id.viewPagerSupplies);
-        FloatingActionButton addSupplies = findViewById(R.id.fbAddSupplies);
-        FloatingActionButton cartSupplies = findViewById(R.id.fbCartSupplies);
+        TextView addSupplies = findViewById(R.id.btnSuppliesAddNew);
+        TextView cartSupplies = findViewById(R.id.btnSuppliesViewCart);
 
         addSupplies.setOnClickListener(view -> {
             createNewSupplies();
+        });
+
+        cartSupplies.setOnClickListener(view -> {
+            Intent i = new Intent(SuppliesActivity.this,CartSuppliesItem.class);
+            startActivity(i);
         });
 
         tabLayout.addTab(tabLayout.newTab().setText("Bahan Utama"));
