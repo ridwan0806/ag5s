@@ -96,9 +96,11 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:text="@string/dashboard"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
                 android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                android:textStyle="bold|italic" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -231,7 +233,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/imgCircleCost"
                                 app:layout_constraintStart_toStartOf="@+id/imgCircleCost"
                                 app:layout_constraintTop_toTopOf="@+id/imgCircleCost"
-                                app:srcCompat="@drawable/ic_5" />
+                                app:srcCompat="@drawable/ic_cost" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
@@ -424,7 +426,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Hak akses"
+                            android:text="Pengguna"
                             android:textAlignment="center"
                             android:textColor="#000000"
                             android:textSize="12sp"

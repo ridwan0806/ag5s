@@ -119,4 +119,10 @@ public class DatabaseSuppliesOrderItem extends SQLiteOpenHelper {
         String query = "DELETE FROM " + TABLE_NAME;
         db.execSQL(query);
     }
+
+    public void deleteItem(int id){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String query = "DELETE FROM SuppliesItem WHERE id="+id;
+        database.execSQL(query);
+    }
 }

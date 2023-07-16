@@ -41,19 +41,19 @@ public class MainActivity extends AppCompatActivity {
         userBranch = findViewById(R.id.txtBranch);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        root = FirebaseDatabase.getInstance().getReference();
 
         if (firebaseUser != null){
             userId = firebaseUser.getUid();
             userName.setText(firebaseUser.getDisplayName());
+
+            dbUser = root.child("Users").child(userId);
+            getUserInfo();
         } else {
             Intent login = new Intent(MainActivity.this,Login.class);
             startActivity(login);
             finish();
         }
-
-        root = FirebaseDatabase.getInstance().getReference();
-        dbUser = root.child("Users").child(userId);
-        getUserInfo();
         
         food = findViewById(R.id.ic_food);
         supplies = findViewById(R.id.ic_supplies);
@@ -104,10 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 confirm.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        FirebaseAuth.getInstance().signOut();
-                        Intent login = new Intent(MainActivity.this,Login.class);
-                        startActivity(login);
-                        finish();
+                        logout();
                     }
                 });
                 confirm.show();
@@ -116,12 +113,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent login = new Intent(MainActivity.this,Login.class);
+        startActivity(login);
+        finish();
+    }
+
     private void getUserInfo() {
         dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String branch = snapshot.child("branch").getValue(String.class);
-                userBranch.setText(branch);
+                userBranch.setText("CABANG : "+branch);
             }
 
             @Override
