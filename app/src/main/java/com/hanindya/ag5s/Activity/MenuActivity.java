@@ -51,8 +51,8 @@ public class MenuActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabMenu);
         ViewPager viewPager = findViewById(R.id.viewPagerMenu);
-        FloatingActionButton btnAddMenu = findViewById(R.id.fbAddMenu);
-        FloatingActionButton cart = findViewById(R.id.fbCart);
+        TextView btnAddMenu = findViewById(R.id.btnMenuAddNew);
+        TextView cart = findViewById(R.id.btnMenuViewCart);
 
         cart.setOnClickListener(view -> {
             Intent cartActivity = new Intent(MenuActivity.this, CartActivity.class);

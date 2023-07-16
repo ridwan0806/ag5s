@@ -31,6 +31,8 @@ import com.hanindya.ag5s.Model.Order;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,6 +56,8 @@ public class CartActivity extends AppCompatActivity {
     int rdCustomerTypeId = 0;
     String rdOrderType = "";
     String rdCustomerType = "";
+    int totalItem = 0;
+    int totalPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +185,8 @@ public class CartActivity extends AppCompatActivity {
                 order.setCreatedDate(date.format(resultDate));
                 order.setOrderStatus("Process");
                 order.setCancelReason("");
-                order.setSubtotalItem(Integer.parseInt(subtotalItem.getText().toString()));
-                order.setSubtotalPrice(Double.parseDouble(subtotalPrice.getText().toString()));
+                order.setSubtotalItem(totalItem);
+                order.setSubtotalPrice(totalPrice);
                 order.setNominalPayment(0);
                 order.setChange(0);
 
@@ -227,14 +231,15 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        int totalItem = 0;
-        int totalPrice = 0;
+        NumberFormat formatRp = new DecimalFormat("#,###");
+
         for (OrderItem list:orderItem){
             totalItem += list.getQty();
             totalPrice += (list.getQty())*(list.getPrice());
         }
         subtotalItem.setText(String.valueOf(totalItem));
-        subtotalPrice.setText(String.valueOf(totalPrice));
+        subtotalPrice.setText(formatRp.format(totalPrice));
+//        subtotalPrice.setText(String.valueOf(totalPrice));
     }
 
     public void onRadioButtonClicked(View view) {
@@ -276,33 +281,6 @@ public class CartActivity extends AppCompatActivity {
                     rdCustomerType = "Kerabat";
                 }
                 break;
-        }
-
-        switch (view.getId()){
-//            case R.id.rdUmum:
-//                if (checked){
-//                    rdCustomerTypeId = 1;
-//                    rdCustomerType = "Umum";
-//                }
-//                break;
-//            case R.id.rdOnline:
-//                if (checked){
-//                    rdCustomerTypeId = 2;
-//                    rdCustomerType = "Online";
-//                }
-//                break;
-//            case R.id.rdKaryawan:
-//                if (checked){
-//                    rdCustomerTypeId = 3;
-//                    rdCustomerType = "Karyawan";
-//                }
-//                break;
-//            case R.id.rdKerabat:
-//                if (checked){
-//                    rdCustomerTypeId = 4;
-//                    rdCustomerType = "Kerabat";
-//                }
-//                break;
         }
     }
 

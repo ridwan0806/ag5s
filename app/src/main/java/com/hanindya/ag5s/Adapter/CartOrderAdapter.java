@@ -56,49 +56,30 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
         holder.price.setText(formatRp.format(price));
         holder.subtotal.setText(formatRp.format(subtotal));
         
-        holder.menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(view.getContext(),holder.menu);
-                popupMenu.getMenuInflater().inflate(R.menu.menu_cart_order,popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        int itemId = menuItem.getItemId();
-                        if (itemId == R.id.cart_order_edit_qty){
-                            Toast.makeText(context, "Fitur Ubah Qty Belum Siap", Toast.LENGTH_SHORT).show();
-                        } else if (itemId == R.id.cart_order_edit_price){
-                            Toast.makeText(context, "Fitur Edit Harga Belum Siap", Toast.LENGTH_SHORT).show();
-                        } else if (itemId == R.id.cart_order_delete_food){
-                            AlertDialog.Builder confirmDelete = new AlertDialog.Builder(context);
-                            confirmDelete.setCancelable(false);
-                            confirmDelete.setMessage("Hapus "+list.getFoodName()+" dari daftar pesanan ?");
+        holder.menu.setOnClickListener(view -> {
+            AlertDialog.Builder confirmDelete = new AlertDialog.Builder(context);
+            confirmDelete.setCancelable(false);
+            confirmDelete.setMessage("Hapus "+list.getFoodName()+" ?");
 
-                            confirmDelete.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
+            confirmDelete.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
 
-                            confirmDelete.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    DatabaseOrderItem db = new DatabaseOrderItem(context);
-                                    db.delete(Integer.parseInt(list.getId()));
-                                    orderItem.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyDataSetChanged();
-                                    Toast.makeText(context, ""+list.getFoodName()+" dihapus dari pesanan", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            confirmDelete.show();
-                        }
-                        return true;
-                    }
-                });
-                popupMenu.show();
-            }
+            confirmDelete.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    DatabaseOrderItem db = new DatabaseOrderItem(context);
+                    db.delete(Integer.parseInt(list.getId()));
+                    orderItem.remove(position);
+                    notifyItemRemoved(position);
+                    notifyDataSetChanged();
+                    Toast.makeText(context, ""+list.getFoodName()+" dihapus", Toast.LENGTH_SHORT).show();
+                }
+            });
+            confirmDelete.show();
         });
     }
 
