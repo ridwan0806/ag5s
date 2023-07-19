@@ -11,16 +11,16 @@ import com.hanindya.ag5s.R;
 
 public class VHCashierProcess extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView cashierProcessCustomerName,cashierProcessCustomerType,cashierProcessOrderType,cashierProcessSubtotalPrice,numberCount;
+    public TextView cashierProcessCustomerName,cashierProcessCustomerType,cashierProcessOrderType,cashierProcessSubtotalPrice,cashierProcessStatusOrder;
     private ItemClickListener itemClickListener;
 
     public VHCashierProcess(@NonNull View itemView) {
         super(itemView);
-        cashierProcessCustomerName = itemView.findViewById(R.id.txtRVCashierCompleteCustName);
-        cashierProcessCustomerType = itemView.findViewById(R.id.txtRVCashierCompleteCatCust);
-        cashierProcessOrderType = itemView.findViewById(R.id.txtRVCashierCompleteOrderType);
-        cashierProcessSubtotalPrice = itemView.findViewById(R.id.txtRVCashierCompleteSubtotalPrice);
-        numberCount = itemView.findViewById(R.id.txtRVCashierCompleteNumber);
+        cashierProcessCustomerName = itemView.findViewById(R.id.txtRVCashierProcessCustomerName);
+        cashierProcessCustomerType = itemView.findViewById(R.id.txtRVCashierProcessCustomerType);
+        cashierProcessOrderType = itemView.findViewById(R.id.txtRVCashierProcessOrderType);
+        cashierProcessSubtotalPrice = itemView.findViewById(R.id.txtRVCashierProcessSubtotalPrice);
+        cashierProcessStatusOrder = itemView.findViewById(R.id.txtRVCashierProcessStatusOrder);
         itemView.setOnClickListener(this);
     }
 

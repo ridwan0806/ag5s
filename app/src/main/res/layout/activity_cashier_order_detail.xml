@@ -37,6 +37,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Informasi Pesanan"
                     android:textColor="@color/blue"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Jumlah Item Pesanan :"
+                    android:text="Jumlah Item :"
                     app:layout_constraintStart_toStartOf="@+id/textView20"
                     app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
@@ -72,9 +73,9 @@
                     android:id="@+id/textView24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Total Pembayaran :"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Total Tagihan :"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView23"
                     app:layout_constraintTop_toBottomOf="@+id/textView23" />
@@ -83,40 +84,43 @@
                     android:id="@+id/txtOrderDetailCustInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="32dp"
                     android:text="TextView"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView16"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView16"
                     app:layout_constraintTop_toTopOf="@+id/textView16" />
 
                 <TextView
                     android:id="@+id/txtOrderDetailCreatedDateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
                     android:text="TextView"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView20"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/txtOrderDetailCustInfo"
                     app:layout_constraintTop_toTopOf="@+id/textView20" />
 
                 <TextView
                     android:id="@+id/txtOrderDetailTotalItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
                     android:text="TextView"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView23"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/txtOrderDetailCreatedDateTime"
                     app:layout_constraintTop_toTopOf="@+id/textView23" />
 
                 <TextView
                     android:id="@+id/txtOrderDetailTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
                     android:text="TextView"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/textView24"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/txtOrderDetailTotalItem"
                     app:layout_constraintTop_toTopOf="@+id/textView24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -131,9 +135,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
                     android:text="Detail Item Pesanan"
                     android:textColor="@color/blue"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -200,7 +204,7 @@
                 android:background="@color/white">
 
                 <TextView
-                    android:id="@+id/textView36"
+                    android:id="@+id/btnOrderDetailClosedOrder"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="8dp"

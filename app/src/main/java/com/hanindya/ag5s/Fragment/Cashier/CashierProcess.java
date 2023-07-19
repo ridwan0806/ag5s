@@ -28,6 +28,8 @@ import com.hanindya.ag5s.Model.Order;
 import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Cashier.VHCashierProcess;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -156,12 +158,14 @@ public class CashierProcess extends Fragment {
         adapter = new FirebaseRecyclerAdapter<Order, VHCashierProcess>(list) {
             @Override
             protected void onBindViewHolder(@NonNull VHCashierProcess holder, int position, @NonNull Order model) {
-                int number = position + 1;
-                holder.numberCount.setText(String.valueOf(number));
+                NumberFormat formatRp = new DecimalFormat("#,###");
+                double total = model.getSubtotalPrice();
+
                 holder.cashierProcessCustomerName.setText(model.getCustomerName());
                 holder.cashierProcessCustomerType.setText(model.getCustomerType());
                 holder.cashierProcessOrderType.setText(model.getOrderType());
-                holder.cashierProcessSubtotalPrice.setText(String.valueOf(model.getSubtotalPrice()));
+                holder.cashierProcessSubtotalPrice.setText(formatRp.format(total));
+                holder.cashierProcessStatusOrder.setText(model.getOrderStatus());
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {

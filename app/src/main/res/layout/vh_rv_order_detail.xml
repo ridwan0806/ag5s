@@ -33,11 +33,12 @@
             android:id="@+id/txtOrderDetailFoodName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="FoodName"
-            android:textColor="@color/blue"
-            android:textSize="14sp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/txtOrderDetailNumberCount"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +50,7 @@
             android:layout_marginStart="4dp"
             android:text="x"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/txtOrderDetailFoodName"
             app:layout_constraintStart_toEndOf="@+id/txtOrderDetailFoodName"
@@ -62,7 +63,7 @@
             android:layout_marginStart="2dp"
             android:text="2"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/txtOrderDetailFoodName"
             app:layout_constraintStart_toEndOf="@+id/textView17" />
@@ -72,8 +73,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="@string/harga"
-            android:textSize="11sp"
+            android:text="@string/harga_satuan"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/txtOrderDetailFoodName"
             app:layout_constraintTop_toBottomOf="@+id/txtOrderDetailFoodName" />
 
@@ -81,9 +82,9 @@
             android:id="@+id/txtOrderDetailfoodPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:text="10.000"
-            android:textSize="11sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView19"
             app:layout_constraintStart_toEndOf="@+id/textView19"
             app:layout_constraintTop_toTopOf="@+id/textView19" />
@@ -95,7 +96,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
             android:text="@string/subtotal"
-            android:textSize="11sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView19"
             app:layout_constraintTop_toBottomOf="@+id/textView19" />
@@ -104,13 +105,11 @@
             android:id="@+id/txtOrderDetailFoodSubtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:text="10.000"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView21"
-            app:layout_constraintStart_toEndOf="@+id/textView21"
+            app:layout_constraintStart_toStartOf="@+id/txtOrderDetailfoodPrice"
             app:layout_constraintTop_toTopOf="@+id/textView21" />
 
         <ImageView

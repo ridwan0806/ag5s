@@ -36,6 +36,8 @@ import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.VHOrderDetail;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -55,7 +57,8 @@ public class CashierOrderDetail extends AppCompatActivity {
     EditText etEditPrice,etCancelReason;
     ImageView plusBtn,minBtn;
     int numberOrder = 1;
-    TextView lastQty,btnCancelOrder,btnAdditionalMenu;
+    TextView lastQty,btnCancelOrder,btnAdditionalMenu,btnCompleteOrder;
+    TextView customerName,orderDateTime,subtotalQty,subtotalPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,13 @@ public class CashierOrderDetail extends AppCompatActivity {
 
         btnCancelOrder = findViewById(R.id.btnOrderDetailCancelOrder);
         btnAdditionalMenu = findViewById(R.id.btnOrderDetailAdditionalMenu);
+        btnCompleteOrder = findViewById(R.id.btnOrderDetailClosedOrder);
+
+        customerName = findViewById(R.id.txtOrderDetailCustInfo);
+        orderDateTime = findViewById(R.id.txtOrderDetailCreatedDateTime);
+        subtotalQty = findViewById(R.id.txtOrderDetailTotalItem);
+        subtotalPrice = findViewById(R.id.txtOrderDetailTotalPrice);
+
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = firebaseUser.getUid();
@@ -158,6 +168,14 @@ public class CashierOrderDetail extends AppCompatActivity {
             });
             confirm.show();
         });
+
+        btnCompleteOrder.setOnClickListener(view -> {
+            completeCurrentOrder(orderId);
+        });
+    }
+
+    private void completeCurrentOrder(String orderId) {
+        Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
     }
 
     private void cancelCurrentOrder(String orderId) {
@@ -212,7 +230,14 @@ public class CashierOrderDetail extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 currentOrder = snapshot.getValue(Order.class);
-                // get parent order like : cust name, created datetime, subtotal all..
+
+                NumberFormat formatRp = new DecimalFormat("#,###");
+                double totalPayment = currentOrder.getSubtotalPrice();
+
+                customerName.setText(currentOrder.getCustomerName()+" - "+currentOrder.getOrderType()+" - "+currentOrder.getCustomerType());
+                orderDateTime.setText(currentOrder.getCreatedDateTime());
+                subtotalQty.setText(String.valueOf(currentOrder.getSubtotalItem()));
+                subtotalPrice.setText(formatRp.format(totalPayment));
 
                 FirebaseRecyclerOptions<OrderItem> listItem =
                         new FirebaseRecyclerOptions.Builder<OrderItem>()
@@ -227,11 +252,15 @@ public class CashierOrderDetail extends AppCompatActivity {
                         String orderItemPrice = String.valueOf(adapter.getItem(position).getPrice());
                         
                         int number = position + 1;
-                        holder.numberCount.setText(String.valueOf(number));
+                        holder.numberCount.setText(number+".");
+
+                        double price = model.getPrice();
+                        double subtotal = model.getSubtotal();
+
                         holder.foodName.setText(model.getFoodName());
                         holder.qty.setText(String.valueOf(model.getQty()));
-                        holder.price.setText(String.valueOf(model.getPrice()));
-                        holder.subtotal.setText(String.valueOf(model.getSubtotal()));
+                        holder.price.setText(formatRp.format(price));
+                        holder.subtotal.setText(formatRp.format(subtotal));
                         
                         holder.menu.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -293,6 +322,9 @@ public class CashierOrderDetail extends AppCompatActivity {
                                         dbOrder.child(orderId).child("subtotalItem").setValue(newSubtotalItem);
                                         dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalPrice);
 
+                                        subtotalQty.setText(formatRp.format(newSubtotalItem));
+                                        subtotalPrice.setText(formatRp.format(newSubtotalPrice));
+
                                         notifyItemRemoved(position);
                                         notifyDataSetChanged();
                                         Toast.makeText(CashierOrderDetail.this, "Sukses. Item dihapus", Toast.LENGTH_SHORT).show();
@@ -330,7 +362,7 @@ public class CashierOrderDetail extends AppCompatActivity {
     private void editQtyItem(String orderItemId, String orderItemPrice, String orderItemQty) {
         AlertDialog.Builder editQty = new AlertDialog.Builder(CashierOrderDetail.this);
         editQty.setCancelable(false);
-        editQty.setMessage("Ubah Qty Pesanan");
+        editQty.setMessage("Ubah Qty ?");
 
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View layout = layoutInflater.inflate(R.layout.dialog_edit_qty,null);
@@ -381,8 +413,10 @@ public class CashierOrderDetail extends AppCompatActivity {
                     ValueEventListener listener = new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            NumberFormat formatRp = new DecimalFormat("#,###");
                             double newSubtotalAll = 0;
                             int newQtyAll = 0;
+
                             for (DataSnapshot dataSnapshot:snapshot.getChildren()){
                                 double subtotal = Double.valueOf(dataSnapshot.child("subtotal").getValue(long.class));
                                 int qty = dataSnapshot.child("qty").getValue(int.class);
@@ -392,6 +426,9 @@ public class CashierOrderDetail extends AppCompatActivity {
                             }
                             dbOrder.child(orderId).child("subtotalItem").setValue(newQtyAll);
                             dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalAll);
+
+                            subtotalQty.setText(formatRp.format(newQtyAll));
+                            subtotalPrice.setText(formatRp.format(newSubtotalAll));
                         }
 
                         @Override
@@ -400,18 +437,17 @@ public class CashierOrderDetail extends AppCompatActivity {
                         }
                     };
                     reference.addListenerForSingleValueEvent(listener);
-                    Toast.makeText(CashierOrderDetail.this, "Sukses. Qty berhasil diubah.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CashierOrderDetail.this, "Sukses. qty berhasil diubah", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
         editQty.show();
     }
 
     private void editPriceItem(String orderItemId, String orderItemPrice, String orderItemQty) {
         AlertDialog.Builder editPrice = new AlertDialog.Builder(CashierOrderDetail.this);
         editPrice.setCancelable(false);
-        editPrice.setMessage("Ubah Harga Jual Satuan");
+        editPrice.setMessage("Ubah Harga Jual Satuan ?");
 
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View layout = layoutInflater.inflate(R.layout.dialog_edit_price,null);
@@ -431,7 +467,7 @@ public class CashierOrderDetail extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (etEditPrice.getText().toString().length() == 0 | etEditPrice.getText().toString().equals("Rp 0")){
-                    Toast.makeText(CashierOrderDetail.this, "Gagal. Harga Invalid.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CashierOrderDetail.this, "Gagal. Harga Invalid", Toast.LENGTH_SHORT).show();
                 } else {
                     BigDecimal bigDecimal = MoneyTextWatcher.parseCurrencyValue(etEditPrice.getText().toString());
                     String cleanEditTextPrice = String.valueOf(bigDecimal);
@@ -440,7 +476,7 @@ public class CashierOrderDetail extends AppCompatActivity {
                     double oldPrice = Double.parseDouble(orderItemPrice);
                     
                     if (newPrice == oldPrice){
-                        Toast.makeText(CashierOrderDetail.this, "Gagal. Harga masih sama.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CashierOrderDetail.this, "Gagal. Harga masih sama", Toast.LENGTH_SHORT).show();
                     } else {
                         // update price, subtotal (orderItem)
                         dbOrder.child(orderId).child("orderItem").child(orderItemId).child("price").setValue(newPrice);
@@ -452,13 +488,16 @@ public class CashierOrderDetail extends AppCompatActivity {
                         ValueEventListener listener = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                NumberFormat formatRp = new DecimalFormat("#,###");
                                 double newSubtotalAll = 0;
+
                                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
                                     double subtotal = Double.valueOf(dataSnapshot.child("subtotal").getValue(long.class));
 
                                     newSubtotalAll = newSubtotalAll + subtotal;
                                 }
                                 dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalAll);
+                                subtotalPrice.setText(formatRp.format(newSubtotalAll));
                             }
 
                             @Override
@@ -472,7 +511,6 @@ public class CashierOrderDetail extends AppCompatActivity {
                 }
             }
         });
-
         editPrice.show();
     }
 
