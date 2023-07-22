@@ -10,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.Helper.MoneyTextWatcher;
+import com.hanindya.ag5s.MainActivity;
 import com.hanindya.ag5s.Model.Order;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
@@ -59,6 +63,12 @@ public class CashierOrderDetail extends AppCompatActivity {
     int numberOrder = 1;
     TextView lastQty,btnCancelOrder,btnAdditionalMenu,btnCompleteOrder;
     TextView customerName,orderDateTime,subtotalQty,subtotalPrice;
+
+    //Payment Complete
+    int rdPaymentMethodId = 0;
+    String rdPaymentMethod = "";
+    EditText paymentNominal;
+    TextView paymentSubtotalPrice,paymentChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +110,6 @@ public class CashierOrderDetail extends AppCompatActivity {
 
                 Date resultDate = new Date(estimateServerTime);
                 orderDate = date.format(resultDate);
-//                Log.d("TAG",""+orderDate);
             }
 
             @Override
@@ -174,8 +183,103 @@ public class CashierOrderDetail extends AppCompatActivity {
         });
     }
 
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        switch (view.getId()){
+            case R.id.rdOrderPaymentTunai:
+                if (checked){
+                    rdPaymentMethodId = 1;
+                    rdPaymentMethod = "Tunai";
+                }
+                break;
+            case R.id.rdOrderPaymentNonTunai:
+                if (checked){
+                    rdPaymentMethodId = 2;
+                    rdPaymentMethod = "Non Tunai";
+                }
+                break;
+        }
+    }
+    
     private void completeCurrentOrder(String orderId) {
-        Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder completeOrder = new AlertDialog.Builder(CashierOrderDetail.this);
+        completeOrder.setCancelable(false);
+        completeOrder.setTitle("Selesaikan Pembayaran ?");
+
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View layout = layoutInflater.inflate(R.layout.dialog_complete_order,null);
+        completeOrder.setView(layout);
+
+        paymentSubtotalPrice = layout.findViewById(R.id.tvOrderPaymentSubtotalPrice);
+        paymentChange = layout.findViewById(R.id.tvOrderPaymentChange);
+        paymentNominal = layout.findViewById(R.id.etOrderPaymentNominal);
+
+        dbOrder.child(orderId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                NumberFormat formatRp = new DecimalFormat("#,###");
+
+                int totalBill = Integer.parseInt(String.valueOf(snapshot.child("subtotalPrice").getValue(long.class)));
+                paymentSubtotalPrice.setText(formatRp.format(totalBill));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        });
+
+        paymentNominal.addTextChangedListener(new MoneyTextWatcher(paymentNominal));
+        paymentNominal.addTextChangedListener(new MoneyTextWatcher(paymentNominal){
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                BigDecimal value = MoneyTextWatcher.parseCurrencyValue(paymentNominal.getText().toString());
+                String payment = String.valueOf(value);
+
+                int totalBill = Integer.parseInt(paymentSubtotalPrice.getText().toString());
+                int changeBill = 0;
+                if (payment.isEmpty()){
+                    changeBill = 0;
+                } else {
+                    changeBill = Integer.parseInt(payment) - totalBill;
+                }
+                paymentChange.setText(String.valueOf(changeBill));
+            }
+        });
+
+        completeOrder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        completeOrder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (rdPaymentMethodId == 0){
+                    Toast.makeText(CashierOrderDetail.this, "metode pembayaran invalid", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent home = new Intent(CashierOrderDetail.this, MainActivity.class);
+                    startActivity(home);
+                    finish();
+                }
+            }
+        });
+        completeOrder.show();
+    }
+
+    private void printFaktur() {
     }
 
     private void cancelCurrentOrder(String orderId) {
