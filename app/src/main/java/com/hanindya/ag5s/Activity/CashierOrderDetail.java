@@ -69,6 +69,7 @@ public class CashierOrderDetail extends AppCompatActivity {
     String rdPaymentMethod = "";
     EditText paymentNominal;
     TextView paymentSubtotalPrice,paymentChange;
+    int changeBill = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,39 +222,37 @@ public class CashierOrderDetail extends AppCompatActivity {
 
                 int totalBill = Integer.parseInt(String.valueOf(snapshot.child("subtotalPrice").getValue(long.class)));
                 paymentSubtotalPrice.setText(formatRp.format(totalBill));
+
+                paymentNominal.addTextChangedListener(new MoneyTextWatcher(paymentNominal));
+                paymentNominal.addTextChangedListener(new MoneyTextWatcher(paymentNominal){
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        BigDecimal value = MoneyTextWatcher.parseCurrencyValue(paymentNominal.getText().toString());
+                        String payment = String.valueOf(value);
+
+                        if (payment.isEmpty()){
+                            changeBill = 0;
+                        } else {
+                            changeBill = Integer.parseInt(payment) - totalBill;
+                        }
+                        paymentChange.setText(String.valueOf(changeBill));
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 throw error.toException();
-            }
-        });
-
-        paymentNominal.addTextChangedListener(new MoneyTextWatcher(paymentNominal));
-        paymentNominal.addTextChangedListener(new MoneyTextWatcher(paymentNominal){
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                BigDecimal value = MoneyTextWatcher.parseCurrencyValue(paymentNominal.getText().toString());
-                String payment = String.valueOf(value);
-
-                int totalBill = Integer.parseInt(paymentSubtotalPrice.getText().toString());
-                int changeBill = 0;
-                if (payment.isEmpty()){
-                    changeBill = 0;
-                } else {
-                    changeBill = Integer.parseInt(payment) - totalBill;
-                }
-                paymentChange.setText(String.valueOf(changeBill));
             }
         });
 
@@ -268,7 +267,35 @@ public class CashierOrderDetail extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (rdPaymentMethodId == 0){
-                    Toast.makeText(CashierOrderDetail.this, "metode pembayaran invalid", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder failed = new AlertDialog.Builder(CashierOrderDetail.this);
+                    failed.setCancelable(false);
+                    failed.setTitle("Error !");
+                    failed.setMessage("metode pembayaran belum dipilih");
+
+                    failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            completeCurrentOrder(orderId);
+                        }
+                    });
+                    failed.show();
+
+                } else if (changeBill < 0){
+                    rdPaymentMethodId = 0;
+                    AlertDialog.Builder failed = new AlertDialog.Builder(CashierOrderDetail.this);
+                    failed.setCancelable(false);
+                    failed.setTitle("Error !");
+                    failed.setMessage("periksa kembali nominal pembayaran");
+
+                    failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            completeCurrentOrder(orderId);
+                        }
+                    });
+                    failed.show();
                 } else {
                     Intent home = new Intent(CashierOrderDetail.this, MainActivity.class);
                     startActivity(home);

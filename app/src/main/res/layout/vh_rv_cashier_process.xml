@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grey">
+    android:background="@color/blue">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="2dp"
-        android:background="@drawable/bg_button_blue"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bg_button_grey"
         android:elevation="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,10 +25,10 @@
             android:id="@+id/textView40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:text="Nama Pemesan :"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:text="Ridwan"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView40"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Jenis Pesanan :"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/textView40"
             app:layout_constraintTop_toBottomOf="@+id/textView40" />
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dine In"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView41"
             app:layout_constraintStart_toStartOf="@+id/txtRVCashierProcessCustomerName"
@@ -71,9 +71,8 @@
             android:id="@+id/textView43"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:text="Kategori Pemesan :"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/textView41"
             app:layout_constraintTop_toBottomOf="@+id/textView41" />
@@ -83,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Umum"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView43"
             app:layout_constraintStart_toStartOf="@+id/txtRVCashierProcessOrderType"
@@ -93,13 +92,12 @@
             android:id="@+id/textView34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
+            android:layout_marginTop="4dp"
             android:text="Status :"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtRVCashierProcessCustomerName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txtRVCashierProcessCustomerName" />
+            app:layout_constraintStart_toStartOf="@+id/textView43"
+            app:layout_constraintTop_toBottomOf="@+id/textView43" />
 
         <TextView
             android:id="@+id/txtRVCashierProcessStatusOrder"
@@ -107,24 +105,24 @@
             android:layout_height="wrap_content"
             android:text="status"
             android:textAllCaps="true"
-            android:textColor="@color/white"
+            android:textColor="@color/teal_200"
             android:textSize="12sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintEnd_toEndOf="@+id/textView34"
-            app:layout_constraintTop_toBottomOf="@+id/textView34" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView34"
+            app:layout_constraintStart_toStartOf="@+id/txtRVCashierProcessCustomerType"
+            app:layout_constraintTop_toTopOf="@+id/textView34" />
 
         <TextView
             android:id="@+id/textView45"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Subtotal Pesanan :"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            android:text="Total Tagihan :"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView43"
-            app:layout_constraintTop_toBottomOf="@+id/textView43" />
+            app:layout_constraintStart_toStartOf="@+id/textView34"
+            app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
         <TextView
             android:id="@+id/txtRVCashierProcessSubtotalPrice"
@@ -132,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:text="25.000"
-            android:textColor="@color/white"
+            android:textColor="@color/design_default_color_error"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView45"
