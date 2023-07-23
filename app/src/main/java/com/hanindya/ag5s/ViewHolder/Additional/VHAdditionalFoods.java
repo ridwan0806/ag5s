@@ -12,14 +12,13 @@ import com.hanindya.ag5s.R;
 
 public class VHAdditionalFoods extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView txtAdditionalFoodName,txtAdditionalFoodPrice,txtAdditionalFoodCategory;
+    public TextView txtAdditionalFoodName,txtAdditionalFoodPrice;
     private ItemClickListener itemClickListener;
 
     public VHAdditionalFoods(@NonNull View itemView) {
         super(itemView);
         txtAdditionalFoodName = itemView.findViewById(R.id.txtRVAdditionalFoodsFoodName);
         txtAdditionalFoodPrice = itemView.findViewById(R.id.txtRVAdditionalFoodsFoodPrice);
-        txtAdditionalFoodCategory = itemView.findViewById(R.id.txtRVAdditionalFoodsFoodCategory);
         itemView.setOnClickListener(this);
     }
 

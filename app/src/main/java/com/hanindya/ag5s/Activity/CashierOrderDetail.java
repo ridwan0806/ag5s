@@ -70,6 +70,7 @@ public class CashierOrderDetail extends AppCompatActivity {
     EditText paymentNominal;
     TextView paymentSubtotalPrice,paymentChange;
     int changeBill = 0;
+    String paymentByCustomer = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +139,7 @@ public class CashierOrderDetail extends AppCompatActivity {
         btnAdditionalMenu.setOnClickListener(view -> {
             AlertDialog.Builder confirm = new AlertDialog.Builder(CashierOrderDetail.this);
             confirm.setCancelable(false);
-            confirm.setMessage("Masukan menu tambahan pada pesanan ini ?");
+            confirm.setMessage("Ada Tambahan Menu ?");
             confirm.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -220,7 +221,7 @@ public class CashierOrderDetail extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 NumberFormat formatRp = new DecimalFormat("#,###");
 
-                int totalBill = Integer.parseInt(String.valueOf(snapshot.child("subtotalPrice").getValue(long.class)));
+                int totalBill = Integer.parseInt(String.valueOf(snapshot.child("totalBill").getValue(long.class)));
                 paymentSubtotalPrice.setText(formatRp.format(totalBill));
 
                 paymentNominal.addTextChangedListener(new MoneyTextWatcher(paymentNominal));
@@ -238,14 +239,14 @@ public class CashierOrderDetail extends AppCompatActivity {
                     @Override
                     public void afterTextChanged(Editable s) {
                         BigDecimal value = MoneyTextWatcher.parseCurrencyValue(paymentNominal.getText().toString());
-                        String payment = String.valueOf(value);
+                        paymentByCustomer = String.valueOf(value);
 
-                        if (payment.isEmpty()){
+                        if (paymentByCustomer.isEmpty()){
                             changeBill = 0;
                         } else {
-                            changeBill = Integer.parseInt(payment) - totalBill;
+                            changeBill = Integer.parseInt(paymentByCustomer) - totalBill;
                         }
-                        paymentChange.setText(String.valueOf(changeBill));
+                        paymentChange.setText(formatRp.format(changeBill));
                     }
                 });
             }
@@ -296,17 +297,61 @@ public class CashierOrderDetail extends AppCompatActivity {
                         }
                     });
                     failed.show();
-                } else {
-                    Intent home = new Intent(CashierOrderDetail.this, MainActivity.class);
-                    startActivity(home);
-                    finish();
+                } else if (paymentNominal.getText().toString().length() == 0 || paymentNominal.getText().toString().equals("Rp 0")){
+                    rdPaymentMethodId = 0;
+                    AlertDialog.Builder failed = new AlertDialog.Builder(CashierOrderDetail.this);
+                    failed.setCancelable(false);
+                    failed.setTitle("Error !");
+                    failed.setMessage("Nominal pembayaran belum diisi");
+
+                    failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            completeCurrentOrder(orderId);
+                        }
+                    });
+                    failed.show();
+                }
+                else {
+                    closedOrder(orderId);
                 }
             }
         });
         completeOrder.show();
     }
 
-    private void printFaktur() {
+    private void closedOrder(String orderId) {
+        final DatabaseReference serverTime = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+        serverTime.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long serverTimeOffset = snapshot.getValue(Long.class);
+                long estimateServerTime = System.currentTimeMillis()+serverTimeOffset;
+
+                SimpleDateFormat createdDateTime,date;
+                createdDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                date = new SimpleDateFormat("yyyy-MM-dd");
+                Date resultDate = new Date(estimateServerTime);
+
+                dbOrder.child(orderId).child("orderStatus").setValue("Paid");
+                dbOrder.child(orderId).child("completeDateTime").setValue(createdDateTime.format(resultDate));
+                dbOrder.child(orderId).child("completeBy").setValue(userName);
+                dbOrder.child(orderId).child("paymentMethod").setValue(rdPaymentMethod);
+                dbOrder.child(orderId).child("paymentNominal").setValue(Double.parseDouble(paymentByCustomer));
+                dbOrder.child(orderId).child("change").setValue(Double.parseDouble(String.valueOf(changeBill)));
+
+                Intent home = new Intent(CashierOrderDetail.this, MainActivity.class);
+                startActivity(home);
+                finish();
+                Toast.makeText(CashierOrderDetail.this, "Pesanan ditutup. buat fungsi print bill", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw error.toException();
+            }
+        });
     }
 
     private void cancelCurrentOrder(String orderId) {
@@ -363,11 +408,11 @@ public class CashierOrderDetail extends AppCompatActivity {
                 currentOrder = snapshot.getValue(Order.class);
 
                 NumberFormat formatRp = new DecimalFormat("#,###");
-                double totalPayment = currentOrder.getSubtotalPrice();
+                double totalPayment = currentOrder.getTotalBill();
 
                 customerName.setText(currentOrder.getCustomerName()+" - "+currentOrder.getOrderType()+" - "+currentOrder.getCustomerType());
                 orderDateTime.setText(currentOrder.getCreatedDateTime());
-                subtotalQty.setText(String.valueOf(currentOrder.getSubtotalItem()));
+                subtotalQty.setText(String.valueOf(currentOrder.getTotalItem()));
                 subtotalPrice.setText(formatRp.format(totalPayment));
 
                 FirebaseRecyclerOptions<OrderItem> listItem =
@@ -450,8 +495,8 @@ public class CashierOrderDetail extends AppCompatActivity {
                                             newSubtotalItem = newSubtotalItem + totalItem;
                                             newSubtotalPrice = newSubtotalPrice + totalPrice;
                                         }
-                                        dbOrder.child(orderId).child("subtotalItem").setValue(newSubtotalItem);
-                                        dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalPrice);
+                                        dbOrder.child(orderId).child("totalItem").setValue(newSubtotalItem);
+                                        dbOrder.child(orderId).child("totalBill").setValue(newSubtotalPrice);
 
                                         subtotalQty.setText(formatRp.format(newSubtotalItem));
                                         subtotalPrice.setText(formatRp.format(newSubtotalPrice));
@@ -555,8 +600,8 @@ public class CashierOrderDetail extends AppCompatActivity {
                                 newQtyAll = newQtyAll + qty;
                                 newSubtotalAll = newSubtotalAll + subtotal;
                             }
-                            dbOrder.child(orderId).child("subtotalItem").setValue(newQtyAll);
-                            dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalAll);
+                            dbOrder.child(orderId).child("totalItem").setValue(newQtyAll);
+                            dbOrder.child(orderId).child("totalBill").setValue(newSubtotalAll);
 
                             subtotalQty.setText(formatRp.format(newQtyAll));
                             subtotalPrice.setText(formatRp.format(newSubtotalAll));
@@ -627,7 +672,7 @@ public class CashierOrderDetail extends AppCompatActivity {
 
                                     newSubtotalAll = newSubtotalAll + subtotal;
                                 }
-                                dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalAll);
+                                dbOrder.child(orderId).child("totalBill").setValue(newSubtotalAll);
                                 subtotalPrice.setText(formatRp.format(newSubtotalAll));
                             }
 

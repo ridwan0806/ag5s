@@ -11,14 +11,13 @@ import com.hanindya.ag5s.R;
 
 public class VHAdditionalDrinks extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView txtAdditionalFoodName,txtAdditionalFoodPrice,txtAdditionalFoodCategory;
+    public TextView txtAdditionalDrinkName,txtAdditionalDrinkPrice;
     private ItemClickListener itemClickListener;
 
     public VHAdditionalDrinks(@NonNull View itemView) {
         super(itemView);
-        txtAdditionalFoodName = itemView.findViewById(R.id.txtRVAdditionalDrinksFoodName);
-        txtAdditionalFoodPrice = itemView.findViewById(R.id.txtRVAdditionalDrinksFoodPrice);
-        txtAdditionalFoodCategory = itemView.findViewById(R.id.txtRVAdditionalDrinksFoodCategory);
+        txtAdditionalDrinkName = itemView.findViewById(R.id.txtRVAdditionalDrinksFoodName);
+        txtAdditionalDrinkPrice = itemView.findViewById(R.id.txtRVAdditionalDrinksFoodPrice);
         itemView.setOnClickListener(this);
     }
 

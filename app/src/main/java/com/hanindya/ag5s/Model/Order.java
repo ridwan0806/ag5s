@@ -3,15 +3,15 @@ package com.hanindya.ag5s.Model;
 import java.util.HashMap;
 
 public class Order {
-    String customerName,customerType,orderType,createdByUser,createdDateTime,createdDate,orderStatus,cancelReason;
-    double subtotalPrice,nominalPayment,change;
-    int subtotalItem;
+    String customerName,customerType,orderType,createdByUser,createdDateTime,createdDate,orderStatus,cancelReason,paymentMethod,completeDateTime,completeBy,cancelDateTime,cancelBy;
+    double totalBill,paymentNominal,change;
+    int totalItem;
     HashMap<String,OrderItem>orderItem;
 
     public Order() {
     }
 
-    public Order(String customerName, String customerType, String orderType, String createdByUser, String createdDateTime, String createdDate, String orderStatus, String cancelReason, double subtotalPrice, double nominalPayment, double change, int subtotalItem, HashMap<String, OrderItem> orderItem) {
+    public Order(String customerName, String customerType, String orderType, String createdByUser, String createdDateTime, String createdDate, String orderStatus, String cancelReason, String paymentMethod, String completeDateTime, String completeBy, String cancelDateTime, String cancelBy, double totalBill, double paymentNominal, double change, int totalItem, HashMap<String, OrderItem> orderItem) {
         this.customerName = customerName;
         this.customerType = customerType;
         this.orderType = orderType;
@@ -20,10 +20,15 @@ public class Order {
         this.createdDate = createdDate;
         this.orderStatus = orderStatus;
         this.cancelReason = cancelReason;
-        this.subtotalPrice = subtotalPrice;
-        this.nominalPayment = nominalPayment;
+        this.paymentMethod = paymentMethod;
+        this.completeDateTime = completeDateTime;
+        this.completeBy = completeBy;
+        this.cancelDateTime = cancelDateTime;
+        this.cancelBy = cancelBy;
+        this.totalBill = totalBill;
+        this.paymentNominal = paymentNominal;
         this.change = change;
-        this.subtotalItem = subtotalItem;
+        this.totalItem = totalItem;
         this.orderItem = orderItem;
     }
 
@@ -91,20 +96,60 @@ public class Order {
         this.cancelReason = cancelReason;
     }
 
-    public double getSubtotalPrice() {
-        return subtotalPrice;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setSubtotalPrice(double subtotalPrice) {
-        this.subtotalPrice = subtotalPrice;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
-    public double getNominalPayment() {
-        return nominalPayment;
+    public String getCompleteDateTime() {
+        return completeDateTime;
     }
 
-    public void setNominalPayment(double nominalPayment) {
-        this.nominalPayment = nominalPayment;
+    public void setCompleteDateTime(String completeDateTime) {
+        this.completeDateTime = completeDateTime;
+    }
+
+    public String getCompleteBy() {
+        return completeBy;
+    }
+
+    public void setCompleteBy(String completeBy) {
+        this.completeBy = completeBy;
+    }
+
+    public String getCancelDateTime() {
+        return cancelDateTime;
+    }
+
+    public void setCancelDateTime(String cancelDateTime) {
+        this.cancelDateTime = cancelDateTime;
+    }
+
+    public String getCancelBy() {
+        return cancelBy;
+    }
+
+    public void setCancelBy(String cancelBy) {
+        this.cancelBy = cancelBy;
+    }
+
+    public double getTotalBill() {
+        return totalBill;
+    }
+
+    public void setTotalBill(double totalBill) {
+        this.totalBill = totalBill;
+    }
+
+    public double getPaymentNominal() {
+        return paymentNominal;
+    }
+
+    public void setPaymentNominal(double paymentNominal) {
+        this.paymentNominal = paymentNominal;
     }
 
     public double getChange() {
@@ -115,12 +160,12 @@ public class Order {
         this.change = change;
     }
 
-    public int getSubtotalItem() {
-        return subtotalItem;
+    public int getTotalItem() {
+        return totalItem;
     }
 
-    public void setSubtotalItem(int subtotalItem) {
-        this.subtotalItem = subtotalItem;
+    public void setTotalItem(int totalItem) {
+        this.totalItem = totalItem;
     }
 
     public HashMap<String, OrderItem> getOrderItem() {

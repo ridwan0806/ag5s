@@ -185,10 +185,15 @@ public class CartActivity extends AppCompatActivity {
                 order.setCreatedDate(date.format(resultDate));
                 order.setOrderStatus("Process");
                 order.setCancelReason("");
-                order.setSubtotalItem(totalItem);
-                order.setSubtotalPrice(totalPrice);
-                order.setNominalPayment(0);
+                order.setTotalItem(totalItem);
+                order.setTotalBill(totalPrice);
+                order.setPaymentNominal(0);
                 order.setChange(0);
+                order.setPaymentMethod("");
+                order.setCompleteBy("");
+                order.setCompleteDateTime("");
+                order.setCancelBy("");
+                order.setCancelDateTime("");
 
                 String orderId = dbOrder.child(branchName).child(orderDate).push().getKey();
                 dbOrder.child(branchName).child(orderDate).child(orderId).setValue(order);
@@ -239,7 +244,6 @@ public class CartActivity extends AppCompatActivity {
         }
         subtotalItem.setText(String.valueOf(totalItem));
         subtotalPrice.setText(formatRp.format(totalPrice));
-//        subtotalPrice.setText(String.valueOf(totalPrice));
     }
 
     public void onRadioButtonClicked(View view) {

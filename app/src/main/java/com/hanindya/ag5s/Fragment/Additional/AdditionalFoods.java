@@ -35,6 +35,8 @@ import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Additional.VHAdditionalFoods;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -177,7 +179,10 @@ public class AdditionalFoods extends Fragment {
                 String foodPrice = String.valueOf(adapter.getItem(position).getPrice());
 
                 holder.txtAdditionalFoodName.setText(model.getName());
-                holder.txtAdditionalFoodPrice.setText(String.valueOf(model.getPrice()));
+
+                NumberFormat formatRp = new DecimalFormat("#,###");
+                double price = model.getPrice();
+                holder.txtAdditionalFoodPrice.setText(formatRp.format(price));
 
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
@@ -289,8 +294,8 @@ public class AdditionalFoods extends Fragment {
                                         newSubtotalItem = newSubtotalItem + totalItem;
                                         newSubtotalPrice = newSubtotalPrice + totalPrice;
                                     }
-                                    dbOrder.child(orderId).child("subtotalItem").setValue(newSubtotalItem);
-                                    dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalPrice);
+                                    dbOrder.child(orderId).child("totalItem").setValue(newSubtotalItem);
+                                    dbOrder.child(orderId).child("totalBill").setValue(newSubtotalPrice);
 
                                     Intent cashierOrderDetail = new Intent(getContext(), CashierOrderDetail.class);
                                     String id = orderId;

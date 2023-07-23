@@ -1,6 +1,7 @@
 package com.hanindya.ag5s.Fragment.Additional;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hanindya.ag5s.Activity.CashierOrderDetail;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.Model.Foods;
 import com.hanindya.ag5s.Model.Menu;
@@ -35,6 +37,8 @@ import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Additional.VHAdditionalDrinks;
 import com.hanindya.ag5s.ViewHolder.Additional.VHAdditionalFoods;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -171,8 +175,11 @@ public class AdditionalDrinks extends Fragment {
                 String drinkName = adapter.getItem(position).getName();
                 String drinkPrice = String.valueOf(adapter.getItem(position).getPrice());
 
-                holder.txtAdditionalFoodName.setText(model.getName());
-                holder.txtAdditionalFoodPrice.setText(String.valueOf(model.getPrice()));
+                holder.txtAdditionalDrinkName.setText(model.getName());
+
+                NumberFormat formatRp = new DecimalFormat("#,###");
+                double price = model.getPrice();
+                holder.txtAdditionalDrinkPrice.setText(formatRp.format(price));
 
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
@@ -237,12 +244,23 @@ public class AdditionalDrinks extends Fragment {
         setQty.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Query checkItemExists = dbOrder.child(orderId).child("orderItem").orderByChild("drinkId").equalTo(drinkId);
+                Query checkItemExists = dbOrder.child(orderId).child("orderItem").orderByChild("foodId").equalTo(drinkId);
                 ValueEventListener listener = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()){
-                            Toast.makeText(getContext(), "Ops. Menu ini sudah ada", Toast.LENGTH_SHORT).show();
+                            AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
+                            failed.setCancelable(false);
+                            failed.setTitle("Error !");
+                            failed.setMessage("menu sudah ada");
+
+                            failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            failed.show();
                             numberOrder = 1;
                         } else {
                             double subtotal = numberOrder * Double.parseDouble(drinkPrice);
@@ -273,8 +291,14 @@ public class AdditionalDrinks extends Fragment {
                                         newSubtotalItem = newSubtotalItem + totalItem;
                                         newSubtotalPrice = newSubtotalPrice + totalPrice;
                                     }
-                                    dbOrder.child(orderId).child("subtotalItem").setValue(newSubtotalItem);
-                                    dbOrder.child(orderId).child("subtotalPrice").setValue(newSubtotalPrice);
+                                    dbOrder.child(orderId).child("totalItem").setValue(newSubtotalItem);
+                                    dbOrder.child(orderId).child("totalBill").setValue(newSubtotalPrice);
+
+                                    Intent cashierOrderDetail = new Intent(getContext(), CashierOrderDetail.class);
+                                    String id = orderId;
+                                    cashierOrderDetail.putExtra("orderId",id);
+                                    startActivity(cashierOrderDetail);
+                                    getActivity().finish();
                                     Toast.makeText(getContext(), "Sukses. Item ditambahkan", Toast.LENGTH_SHORT).show();
                                 }
 

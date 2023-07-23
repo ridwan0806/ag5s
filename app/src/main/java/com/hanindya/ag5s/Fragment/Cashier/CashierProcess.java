@@ -159,7 +159,7 @@ public class CashierProcess extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull VHCashierProcess holder, int position, @NonNull Order model) {
                 NumberFormat formatRp = new DecimalFormat("#,###");
-                double total = model.getSubtotalPrice();
+                double total = model.getTotalBill();
 
                 holder.cashierProcessCustomerName.setText(model.getCustomerName());
                 holder.cashierProcessCustomerType.setText(model.getCustomerType());
