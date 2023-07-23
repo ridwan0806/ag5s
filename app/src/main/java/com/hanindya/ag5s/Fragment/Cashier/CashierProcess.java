@@ -194,35 +194,4 @@ public class CashierProcess extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void test() {
-//        FirebaseRecyclerOptions<Order> list =
-//                new FirebaseRecyclerOptions.Builder<Order>()
-//                        .setQuery(dbOrder.child(branchName).orderByChild("orderStatus").equalTo("Process"),Order.class)
-//                        .build();
-//        adapter = new FirebaseRecyclerAdapter<Order, VHCashierProcess>(list) {
-//            @Override
-//            protected void onBindViewHolder(@NonNull VHCashierProcess holder, int position, @NonNull Order model) {
-//                holder.cashierProcessCustomerName.setText(model.getCustomerName());
-//                holder.cashierProcessCustomerType.setText(model.getCustomerType());
-//                holder.cashierProcessOrderType.setText(model.getOrderType());
-//                holder.cashierProcessSubtotalPrice.setText(String.valueOf(model.getSubtotalPrice()));
-//            }
-//
-//            @NonNull
-//            @Override
-//            public VHCashierProcess onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_rv_cashier_process,parent,false);
-//                return new VHCashierProcess(view);
-//            }
-//
-//            @Override
-//            public void onDataChanged(){
-//                if (progressBar!=null){
-//                    progressBar.setVisibility(View.GONE);
-//                }
-//            }
-//        };
-//        adapter.startListening();
-//        recyclerView.setAdapter(adapter);
-    }
 }
