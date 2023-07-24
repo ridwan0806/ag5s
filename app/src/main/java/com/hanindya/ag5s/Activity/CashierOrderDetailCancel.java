@@ -1,4 +1,4 @@
-package com.hanindya.ag5s;
+package com.hanindya.ag5s.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.Model.Order;
 import com.hanindya.ag5s.Model.OrderItem;
-import com.hanindya.ag5s.ViewHolder.VHOrderDetail;
+import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.VHOrderDetailComplete;
 
 import java.text.DecimalFormat;
@@ -31,7 +30,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CashierOrderDetailComplete extends AppCompatActivity {
+public class CashierOrderDetailCancel extends AppCompatActivity {
     String orderId = "";
     String orderDate = "";
 
@@ -44,40 +43,39 @@ public class CashierOrderDetailComplete extends AppCompatActivity {
     FirebaseUser firebaseUser;
     String userId,branchName,userName;
 
-    private TextView customerName,createdDateTime,completeDateTime,completeBy,status,orderType,customerType,paymentMethod,totalBill,totalPayment,change;
+    private TextView customerName,createdDateTime,cancelDateTime,cancelBy,status,orderType,customerType,totalBill,cancelReason;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cashier_order_detail_complete);
+        setContentView(R.layout.activity_cashier_order_detail_cancel);
 
         if (getIntent()!=null){
             orderId = getIntent().getStringExtra("orderId");
         }
 
-        recyclerView = findViewById(R.id.rvOrderDetailItemComplete);
+        recyclerView = findViewById(R.id.rvOrderDetailItemCancel);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         customerName = findViewById(R.id.txtOrderDetailCashierCompleteCustomerName);
         createdDateTime = findViewById(R.id.txtOrderDetailCashierCompleteCreatedDateTime);
-        completeDateTime = findViewById(R.id.txtOrderDetailCashierCompleteCompleteDateTime);
-        completeBy = findViewById(R.id.txtOrderDetailCashierCompleteCompleteBy);
+        cancelDateTime = findViewById(R.id.txtOrderDetailCashierCompleteCompleteDateTime);
+        cancelBy = findViewById(R.id.txtOrderDetailCashierCompleteCompleteBy);
 
         status = findViewById(R.id.txtOrderDetailCashierCompleteStatusOrder);
         orderType = findViewById(R.id.txtOrderDetailCashierCompleteOrderType);
         customerType = findViewById(R.id.txtOrderDetailCashierCompleteCustomerType);
-        paymentMethod = findViewById(R.id.txtOrderDetailCashierCompletePaymentMethod);
 
         totalBill = findViewById(R.id.txtOrderDetailCashierCompleteTotalBill);
-        totalPayment = findViewById(R.id.txtOrderDetailCashierCompletePaymentNominal);
-        change = findViewById(R.id.txtOrderDetailCashierCompleteChange);
+
+        cancelReason = findViewById(R.id.txtOrderDetailCashierCompleteCancelReason);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = firebaseUser.getUid();
 
         root = FirebaseDatabase.getInstance().getReference();
-
         DatabaseReference serverTime = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
         serverTime.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -123,22 +121,18 @@ public class CashierOrderDetailComplete extends AppCompatActivity {
 
                 NumberFormat formatRp = new DecimalFormat("#,###");
                 double totBill = currentOrder.getTotalBill();
-                double paymentByCustomer = currentOrder.getPaymentNominal();
-                double changeBill = currentOrder.getChange();
 
                 customerName.setText(currentOrder.getCustomerName());
                 createdDateTime.setText(currentOrder.getCreatedDateTime());
-                completeDateTime.setText(currentOrder.getCompleteDateTime());
-                completeBy.setText(currentOrder.getCompleteBy());
+                cancelDateTime.setText(currentOrder.getCancelDateTime());
+                cancelBy.setText(currentOrder.getCancelBy());
 
                 status.setText(currentOrder.getOrderStatus());
                 orderType.setText(currentOrder.getOrderType());
                 customerType.setText(currentOrder.getCustomerType());
-                paymentMethod.setText(currentOrder.getPaymentMethod());
 
                 totalBill.setText(formatRp.format(totBill));
-                totalPayment.setText(formatRp.format(paymentByCustomer));
-                change.setText(formatRp.format(changeBill));
+                cancelReason.setText(currentOrder.getCancelReason());
 
                 FirebaseRecyclerOptions<OrderItem> listItem =
                         new FirebaseRecyclerOptions.Builder<OrderItem>()

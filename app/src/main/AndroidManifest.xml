@@ -12,7 +12,10 @@
         android:theme="@style/Theme.AG5S"
         tools:targetApi="31">
         <activity
-            android:name=".CashierOrderDetailComplete"
+            android:name=".Activity.CashierOrderDetailCancel"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.CashierOrderDetailComplete"
             android:exported="false" />
         <activity
             android:name=".Activity.CartSuppliesItem"

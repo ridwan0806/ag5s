@@ -22,13 +22,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hanindya.ag5s.Activity.CashierOrderDetail;
-import com.hanindya.ag5s.CashierOrderDetailComplete;
+import com.hanindya.ag5s.Activity.CashierOrderDetailComplete;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.Model.Order;
 import com.hanindya.ag5s.R;
 import com.hanindya.ag5s.ViewHolder.Cashier.VHCashierComplete;
-import com.hanindya.ag5s.ViewHolder.Cashier.VHCashierProcess;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

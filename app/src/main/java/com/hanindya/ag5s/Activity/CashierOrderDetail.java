@@ -375,26 +375,50 @@ public class CashierOrderDetail extends AppCompatActivity {
         cancelReason.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String cancelNote = etCancelReason.getText().toString();
+                final DatabaseReference serverTime = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+                serverTime.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        long serverTimeOffset = snapshot.getValue(Long.class);
+                        long estimateServerTime = System.currentTimeMillis()+serverTimeOffset;
 
-                if (etCancelReason.getText().toString().length() == 0){
-                    cancelNote = "not set";
-                    dbOrder.child(orderId).child("orderStatus").setValue("Cancel");
-                    dbOrder.child(orderId).child("cancelReason").setValue(cancelNote);
+                        SimpleDateFormat createdDateTime,date;
+                        createdDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        date = new SimpleDateFormat("yyyy-MM-dd");
+                        Date resultDate = new Date(estimateServerTime);
 
-                    Toast.makeText(CashierOrderDetail.this, "Sukses. Pesanan dibatalkan", Toast.LENGTH_SHORT).show();
-                    Intent listOrder = new Intent(CashierOrderDetail.this, CashierActivity.class);
-                    startActivity(listOrder);
-                    finish();
-                } else {
-                    dbOrder.child(orderId).child("orderStatus").setValue("Cancel");
-                    dbOrder.child(orderId).child("cancelReason").setValue(cancelNote);
+                        String cancelNote = etCancelReason.getText().toString();
 
-                    Toast.makeText(CashierOrderDetail.this, "Sukses. Pesanan dibatalkan", Toast.LENGTH_SHORT).show();
-                    Intent listOrder = new Intent(CashierOrderDetail.this, CashierActivity.class);
-                    startActivity(listOrder);
-                    finish();
-                }
+                        if (etCancelReason.getText().toString().length() == 0){
+                            cancelNote = "not set";
+                            dbOrder.child(orderId).child("orderStatus").setValue("Cancel");
+                            dbOrder.child(orderId).child("cancelReason").setValue(cancelNote);
+                            dbOrder.child(orderId).child("cancelBy").setValue(userName);
+                            dbOrder.child(orderId).child("cancelDateTime").setValue(createdDateTime.format(resultDate));
+
+                            Toast.makeText(CashierOrderDetail.this, "Sukses. Pesanan dibatalkan", Toast.LENGTH_SHORT).show();
+                            Intent listOrder = new Intent(CashierOrderDetail.this, CashierActivity.class);
+                            startActivity(listOrder);
+                            finish();
+                        } else {
+                            dbOrder.child(orderId).child("orderStatus").setValue("Cancel");
+                            dbOrder.child(orderId).child("cancelReason").setValue(cancelNote);
+                            dbOrder.child(orderId).child("cancelBy").setValue(userName);
+                            dbOrder.child(orderId).child("cancelDateTime").setValue(createdDateTime.format(resultDate));
+
+                            Toast.makeText(CashierOrderDetail.this, "Sukses. Pesanan dibatalkan", Toast.LENGTH_SHORT).show();
+                            Intent listOrder = new Intent(CashierOrderDetail.this, CashierActivity.class);
+                            startActivity(listOrder);
+                            finish();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        throw error.toException();
+                    }
+                });
             }
         });
 
