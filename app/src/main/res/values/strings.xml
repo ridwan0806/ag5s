@@ -2,7 +2,7 @@
     <string name="app_name">AG5S Management System</string>
 
     <!--LOGIN-->
-    <string name="branch">NAMA CABANG</string>
+    <string name="branch">---</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
@@ -23,7 +23,7 @@
     <string name="hakAkses">Hak Akses</string>
 
     <!--Foods-->
-    <string name="daftarMakanan">LIST DAFTAR MENU</string>
+    <string name="daftarMakanan">DAFTAR MENU</string>
     <string name="harga">Harga :</string>
     <string name="harga_satuan">Harga Satuan :</string>
     <string name="kategori">Kategori :</string>
@@ -58,7 +58,7 @@
 
     <!--CART ACTIVITY-->
     <string name="header_cart">List Menu Pesanan</string>
-    <string name="subtotalprice_cart">Total Pembayaran :</string>
+    <string name="subtotalprice_cart">Subtotal Pembayaran :</string>
     <string name="subtotalqty_cart">Total Item (Qty):</string>
     <string name="confirm_cart">Konfirmasi Pesanan</string>
     <string name="subtotal">Subtotal :</string>

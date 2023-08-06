@@ -41,6 +41,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -251,17 +252,17 @@ public class AdditionalDrinks extends Fragment {
                         if (snapshot.exists()){
                             AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
                             failed.setCancelable(false);
-                            failed.setTitle("Error !");
-                            failed.setMessage("menu sudah ada");
+                            failed.setTitle("Error");
+                            failed.setMessage(drinkName.toUpperCase(Locale.ROOT)+" sudah ada di pesanan");
 
                             failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialogInterface.dismiss();
+                                    numberOrder = 1;
                                 }
                             });
                             failed.show();
-                            numberOrder = 1;
                         } else {
                             double subtotal = numberOrder * Double.parseDouble(drinkPrice);
 

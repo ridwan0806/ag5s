@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,16 +29,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.Fragment.Menu.MenuDrinks;
 import com.hanindya.ag5s.Fragment.Menu.MenuFoods;
+import com.hanindya.ag5s.Helper.MoneyTextWatcher;
 import com.hanindya.ag5s.Model.Menu;
 import com.hanindya.ag5s.R;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class MenuActivity extends AppCompatActivity {
     private TabLayout tabLayout;
 
-    TextView menuName,menuPrice,menuCategory;
+    TextView menuCategory;
+    EditText menuName,menuPrice;
     String category = "";
 
     DatabaseReference root,dbMenu,dbUser;
@@ -130,7 +135,7 @@ public class MenuActivity extends AppCompatActivity {
     private void addNewMenu() {
         AlertDialog.Builder createMenu = new AlertDialog.Builder(this);
         createMenu.setCancelable(false);
-        createMenu.setMessage("Buat Menu Baru");
+        createMenu.setMessage("Tambah Menu Baru ?");
 
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View layout = layoutInflater.inflate(R.layout.dialog_add_food,null);
@@ -138,6 +143,7 @@ public class MenuActivity extends AppCompatActivity {
 
         menuName = layout.findViewById(R.id.etNewFoodName);
         menuPrice = layout.findViewById(R.id.etNewFoodPrice);
+        menuPrice.addTextChangedListener(new MoneyTextWatcher(menuPrice));
         menuCategory =layout.findViewById(R.id.etNewFoodCategory);
 
         menuCategory.setOnClickListener(view -> {
@@ -155,7 +161,7 @@ public class MenuActivity extends AppCompatActivity {
                         category = "Drinks";
                         menuCategory.setText("MINUMAN");
                     } else {
-                        category = "unSelect";
+                        category = "";
                     }
                     return true;
                 }
@@ -173,12 +179,47 @@ public class MenuActivity extends AppCompatActivity {
         createMenu.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (menuName.getText().toString().length() == 0){
-                    Toast.makeText(MenuActivity.this, "Gagal. Nama Menu Invalid", Toast.LENGTH_SHORT).show();
-                } else if (menuPrice.getText().toString() == "Rp 0" || menuPrice.getText().toString().length() == 0){
-                    Toast.makeText(MenuActivity.this, "Gagal. Harga Invalid", Toast.LENGTH_SHORT).show();
-                } else if (category.equals("")){
-                    Toast.makeText(MenuActivity.this, "Gagal. Kategori Invalid", Toast.LENGTH_SHORT).show();
+                if (category == ""){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Error");
+                    builder.setMessage("Kategori belum dipilih");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            addNewMenu();
+                        }
+                    });
+                    builder.show();
+                } else if (menuName.getText().toString().length() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Error");
+                    builder.setMessage("Nama menu belum diisi");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            category = "";
+                            addNewMenu();
+                        }
+                    });
+                    builder.show();
+                } else if (menuPrice.getText().toString().equals("Rp 0") || menuPrice.getText().toString().length() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Error");
+                    builder.setMessage("Harga jual invalid");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            category = "";
+                            addNewMenu();
+                        }
+                    });
+                    builder.show();
                 } else {
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -191,13 +232,12 @@ public class MenuActivity extends AppCompatActivity {
                             createdDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date dateNow = new Date(estimateServerTime);
 
-                            String upperText;
-                            upperText = menuName.getText().toString();
-                            upperText = upperText.toUpperCase();
+                            BigDecimal valuePrice = MoneyTextWatcher.parseCurrencyValue(menuPrice.getText().toString());
+                            String price = String.valueOf(valuePrice);
 
                             Menu menu = new Menu();
-                            menu.setName(upperText);
-                            menu.setPrice(Double.parseDouble(menuPrice.getText().toString()));
+                            menu.setName(menuName.getText().toString());
+                            menu.setPrice(Double.parseDouble(price));
                             menu.setCategory(category);
                             menu.setCreatedDateTime(createdDateTime.format(dateNow));
                             menu.setCreatedBy(userName);
@@ -205,7 +245,7 @@ public class MenuActivity extends AppCompatActivity {
                             menu.setEditedDateTime("");
 
                             dbMenu.child(branchName).child(category).push().setValue(menu);
-                            Toast.makeText(MenuActivity.this, "menu berhasil ditambah", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MenuActivity.this, menuName.getText().toString().toUpperCase(Locale.ROOT)+" berhasil ditambah", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

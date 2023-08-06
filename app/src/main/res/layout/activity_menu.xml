@@ -16,20 +16,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView7"
+                app:srcCompat="@drawable/ic_fastfood_white_24" />
+
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@string/daftarMakanan"
                 android:textColor="@color/white"
-                android:textSize="17sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -44,42 +54,56 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/btnMenuAddNew"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="center"
-                    android:background="@drawable/bg_button_blue"
-                    android:textColor="@color/white"
                     android:layout_marginTop="4dp"
+                    android:layout_marginRight="2dp"
                     android:layout_marginBottom="4dp"
-                    android:drawableEnd="@drawable/ic_add_white"
-                    android:paddingEnd="15dp"
                     android:layout_weight="1"
-                    android:text="Buat Menu Baru" />
+                    android:background="@drawable/bg_button_blue"
+                    android:drawableEnd="@drawable/ic_add_white"
+                    android:gravity="center"
+                    android:paddingEnd="15dp"
+                    android:text="Tambah Menu Baru"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/btnMenuViewCart"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="center"
-                    android:background="@drawable/bg_button_blue"
-                    android:textColor="@color/white"
+                    android:layout_marginLeft="2dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:drawableEnd="@drawable/ic_cart_24_white"
-                    android:paddingEnd="15dp"
                     android:layout_weight="1"
-                    android:text="Lihat Pesanan" />
+                    android:background="@drawable/bg_button_blue"
+                    android:drawableEnd="@drawable/ic_cart_24_white"
+                    android:gravity="center"
+                    android:paddingEnd="30dp"
+                    android:text="Lihat Pesanan"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,20 +115,21 @@
                     android:id="@+id/tabMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:background="@drawable/bottom_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-                    app:tabTextColor="@color/blue" />
+                    app:tabBackground="@color/white"
+                    app:tabIndicatorColor="@color/blue"
+                    app:tabMode="fixed"
+                    app:tabTextColor="@color/black" />
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPagerMenu"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

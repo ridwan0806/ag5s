@@ -36,8 +36,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Informasi Pesanan"
+                    android:textAllCaps="true"
                     android:textColor="@color/blue"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +48,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Nama Pemesan :"
+                    android:text="Informasi Konsumen :"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="@+id/textView4"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -57,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Waktu Pemesanan :"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="@+id/textView16"
                     app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -66,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Jumlah Item :"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="@+id/textView20"
                     app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
@@ -73,9 +77,10 @@
                     android:id="@+id/textView24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="24dp"
                     android:text="Total Tagihan :"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView23"
                     app:layout_constraintTop_toBottomOf="@+id/textView23" />
@@ -86,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="TextView"
+                    android:textAllCaps="true"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/textView16"
                     app:layout_constraintStart_toEndOf="@+id/textView16"
@@ -115,12 +121,14 @@
                     android:id="@+id/txtOrderDetailTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
                     android:text="TextView"
-                    android:textColor="@color/black"
+                    android:textAllCaps="true"
+                    android:textColor="@color/design_default_color_error"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/textView24"
-                    app:layout_constraintStart_toStartOf="@+id/txtOrderDetailTotalItem"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -136,8 +144,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="Detail Item Pesanan"
+                    android:textAllCaps="true"
                     android:textColor="@color/blue"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

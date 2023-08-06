@@ -146,4 +146,20 @@ public class DatabaseOrderItem extends SQLiteOpenHelper {
         String query = "DELETE FROM OrderItem WHERE id="+id;
         database.execSQL(query);
     }
+
+//    public String checkItemInCart(){
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        String check = "";
+//        Cursor cursor = db.rawQuery("SELECT COUNT(productId) productId FROM " + TABLE_NAME, null);
+//        if (cursor.moveToFirst()) {
+//            String result = cursor.getString('productId');
+//            if (result == "0"){
+//                check = "0";
+//            } else {
+//                check = "1";
+//            }
+//        }
+//
+//        return check;
+//    }
 }

@@ -437,7 +437,7 @@ public class CashierOrderDetail extends AppCompatActivity {
                 customerName.setText(currentOrder.getCustomerName()+" - "+currentOrder.getOrderType()+" - "+currentOrder.getCustomerType());
                 orderDateTime.setText(currentOrder.getCreatedDateTime());
                 subtotalQty.setText(String.valueOf(currentOrder.getTotalItem()));
-                subtotalPrice.setText(formatRp.format(totalPayment));
+                subtotalPrice.setText("Rp "+formatRp.format(totalPayment));
 
                 FirebaseRecyclerOptions<OrderItem> listItem =
                         new FirebaseRecyclerOptions.Builder<OrderItem>()

@@ -3,6 +3,7 @@ package com.hanindya.ag5s.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hanindya.ag5s.Activity.CartActivity;
 import com.hanindya.ag5s.Helper.DatabaseOrderItem;
 import com.hanindya.ag5s.Model.OrderItem;
 import com.hanindya.ag5s.R;
@@ -23,6 +25,7 @@ import com.hanindya.ag5s.R;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.ViewHolder> {
     private Context context;
@@ -59,7 +62,8 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
         holder.menu.setOnClickListener(view -> {
             AlertDialog.Builder confirmDelete = new AlertDialog.Builder(context);
             confirmDelete.setCancelable(false);
-            confirmDelete.setMessage("Hapus "+list.getFoodName()+" ?");
+            confirmDelete.setTitle("Warning");
+            confirmDelete.setMessage("Hapus "+list.getFoodName().toUpperCase(Locale.ROOT)+" ?");
 
             confirmDelete.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                 @Override
@@ -76,7 +80,11 @@ public class CartOrderAdapter extends RecyclerView.Adapter<CartOrderAdapter.View
                     orderItem.remove(position);
                     notifyItemRemoved(position);
                     notifyDataSetChanged();
-                    Toast.makeText(context, ""+list.getFoodName()+" dihapus", Toast.LENGTH_SHORT).show();
+
+                    Intent reload = new Intent(view.getContext(), CartActivity.class);
+                    view.getContext().startActivity(reload);
+
+                    Toast.makeText(context, ""+list.getFoodName().toUpperCase(Locale.ROOT)+" dihapus", Toast.LENGTH_SHORT).show();
                 }
             });
             confirmDelete.show();

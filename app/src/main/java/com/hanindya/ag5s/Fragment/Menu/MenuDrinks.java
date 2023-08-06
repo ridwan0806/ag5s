@@ -43,6 +43,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -388,7 +389,19 @@ public class MenuDrinks extends Fragment {
                 DatabaseOrderItem dbLocal = new DatabaseOrderItem(getContext());
                 int result = dbLocal.checkItemExist(drinkId);
                 if (result == 0){
-                    Toast.makeText(getContext(), "Gagal. "+drinkName+" sudah ada", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder failed = new AlertDialog.Builder(getContext());
+                    failed.setCancelable(false);
+                    failed.setTitle("Error");
+                    failed.setMessage(drinkName.toUpperCase(Locale.ROOT)+" sudah ada");
+
+                    failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            numberOrder = 1;
+                        }
+                    });
+                    failed.show();
                 } else {
                     Double subtotal = Double.parseDouble(drinkPrice) * numberOrder;
                     dbLocal.addToCart(new OrderItem(

@@ -72,7 +72,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/banner_background">
 
                 <TextView
@@ -95,22 +98,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/dashboard"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
+                android:textAllCaps="true"
                 android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold|italic" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -143,20 +148,89 @@
                                 app:layout_constraintEnd_toEndOf="@+id/imgCircleFoods"
                                 app:layout_constraintStart_toStartOf="@+id/imgCircleFoods"
                                 app:layout_constraintTop_toTopOf="@+id/imgCircleFoods"
-                                app:srcCompat="@drawable/ic_po" />
+                                app:srcCompat="@drawable/ic_fastfood_30" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:id="@+id/txtMakananDashboard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="0dp"
                             android:text="@string/makanan"
                             android:textAlignment="center"
                             android:textColor="#000000"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ic_cashier"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:id="@+id/imgCircleMenuBook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_blue" />
+
+                            <ImageView
+                                android:id="@+id/imgBook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/imgCircleMenuBook"
+                                app:layout_constraintStart_toStartOf="@+id/imgCircleMenuBook"
+                                app:layout_constraintTop_toTopOf="@+id/imgCircleMenuBook"
+                                app:srcCompat="@drawable/ic_money" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/txtStock"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:text="Kasir"
+                            android:textAlignment="center"
+                            android:textColor="#000000"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:orientation="vertical">
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:orientation="vertical">
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -188,18 +262,18 @@
                                 app:layout_constraintEnd_toEndOf="@+id/imgCircleSupplies"
                                 app:layout_constraintStart_toStartOf="@+id/imgCircleSupplies"
                                 app:layout_constraintTop_toTopOf="@+id/imgCircleSupplies"
-                                app:srcCompat="@drawable/ic_book" />
+                                app:srcCompat="@drawable/ic_storefront_30" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:id="@+id/txtSuppliesDashboard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="0dp"
                             android:text="@string/bahanBaku"
                             android:textAlignment="center"
                             android:textColor="#000000"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -239,13 +313,37 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="0dp"
                             android:text="Pengeluaran"
                             android:textAlignment="center"
                             android:textColor="#000000"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:orientation="vertical">
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:orientation="vertical">
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="32dp"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -277,70 +375,17 @@
                                 app:layout_constraintEnd_toEndOf="@+id/imgCircleInformation"
                                 app:layout_constraintStart_toStartOf="@+id/imgCircleInformation"
                                 app:layout_constraintTop_toTopOf="@+id/imgCircleInformation"
-                                app:srcCompat="@drawable/ic_6" />
+                                app:srcCompat="@drawable/ic_history_30" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Informasi"
+                            android:layout_marginTop="0dp"
+                            android:text="Rekap Transaksi"
                             android:textAlignment="center"
                             android:textColor="#000000"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.25"
-                        android:orientation="vertical">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/ic_cashier"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center">
-
-                            <ImageView
-                                android:id="@+id/imgCircleMenuBook"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_blue" />
-
-                            <ImageView
-                                android:id="@+id/imgBook"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="@+id/imgCircleMenuBook"
-                                app:layout_constraintStart_toStartOf="@+id/imgCircleMenuBook"
-                                app:layout_constraintTop_toTopOf="@+id/imgCircleMenuBook"
-                                app:srcCompat="@drawable/ic_money" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <TextView
-                            android:id="@+id/txtStock"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Kasir"
-                            android:textAlignment="center"
-                            android:textColor="#000000"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -380,11 +425,11 @@
                             android:id="@+id/txtInbox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="0dp"
                             android:text="Laporan"
                             android:textAlignment="center"
                             android:textColor="#000000"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -425,11 +470,11 @@
                             android:id="@+id/txtProfile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="0dp"
                             android:text="Pengguna"
                             android:textAlignment="center"
                             android:textColor="#000000"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -464,18 +509,17 @@
                                 app:layout_constraintStart_toStartOf="@+id/imgCircleMenuLogout"
                                 app:layout_constraintTop_toTopOf="@+id/imgCircleMenuLogout"
                                 app:srcCompat="@drawable/ic_power" />
-
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:id="@+id/txtLogout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="0dp"
                             android:text="Logout"
                             android:textAlignment="center"
                             android:textColor="#000000"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 

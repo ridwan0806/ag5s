@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -99,7 +100,22 @@ public class CartActivity extends AppCompatActivity {
         btnConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                confirmOrder();
+                int checkItemInCart = orderItem.size();
+                if (checkItemInCart == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Error");
+                    builder.setMessage("Belum ada data penjualan");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.show();
+                } else {
+                    confirmOrder();
+                }
             }
         });
 
@@ -129,12 +145,12 @@ public class CartActivity extends AppCompatActivity {
                 if (rdOrderTypeId == 0){
                     AlertDialog.Builder failed = new AlertDialog.Builder(CartActivity.this);
                     failed.setCancelable(false);
-                    failed.setMessage("Gagal Tersimpan. Tipe Pesanan belum dipilih");
+                    failed.setTitle("Error");
+                    failed.setMessage("Tipe Pesanan belum dipilih");
                     failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
-                            // reset radio customer..
                             rdCustomerTypeId = 0;
                         }
                     });
@@ -142,17 +158,37 @@ public class CartActivity extends AppCompatActivity {
                 } else if (rdCustomerTypeId == 0){
                     AlertDialog.Builder failed = new AlertDialog.Builder(CartActivity.this);
                     failed.setCancelable(false);
-                    failed.setMessage("Gagal Tersimpan. Tipe Konsumen belum dipilih");
+                    failed.setTitle("Error");
+                    failed.setMessage("Tipe Konsumen belum dipilih");
                     failed.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
-                            // reset radio orderType..
                             rdOrderTypeId = 0;
                         }
                     });
                     failed.show();
-                } else {
+                } else if(customerName.getText().toString().length() == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Info");
+                    builder.setMessage("Nama konsumen belum diisi");
+                    builder.setPositiveButton("Ok, Tetap Simpan", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            customerName.setText("-");
+                            submitOrder();
+                        }
+                    });
+                    builder.setNegativeButton("Batalkan", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.show();
+                }
+                else {
                     submitOrder();
                 }
             }
