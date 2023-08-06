@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/history_uang_masuk"
+        android:title="@string/historyType1" />
+    <item
+        android:id="@+id/history_uang_keluar"
+        android:title="@string/historyType2" />
+</menu>
