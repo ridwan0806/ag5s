@@ -238,7 +238,60 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("Cari", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                if (transactionType == ""){
+                    AlertDialog.Builder error = new AlertDialog.Builder(MainActivity.this);
+                    error.setCancelable(false);
+                    error.setTitle("Error");
+                    error.setMessage("Tipe transaksi belum dipilih");
+                    error.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            filterInfoType();
+                        }
+                    });
+                    error.show();
+                } else if (transactionStartDate == ""){
+                    AlertDialog.Builder error = new AlertDialog.Builder(MainActivity.this);
+                    error.setCancelable(false);
+                    error.setTitle("Error");
+                    error.setMessage("Tanggal mulai belum dipilih");
+                    error.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            filterInfoType();
+                            transactionType = "";
+                        }
+                    });
+                    error.show();
+                } else if (transactionEndDate == ""){
+                    AlertDialog.Builder error = new AlertDialog.Builder(MainActivity.this);
+                    error.setCancelable(false);
+                    error.setTitle("Error");
+                    error.setMessage("Tanggal akhir belum dipilih");
+                    error.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            filterInfoType();
+                            transactionType = "";
+                        }
+                    });
+                    error.show();
+                } else {
+                    if (transactionType == "pemasukan"){
+                        Intent pemasukan = new Intent(MainActivity.this,HistoryCashIn.class);
+                        pemasukan.putExtra("startDate",transactionStartDate);
+                        pemasukan.putExtra("endDate",transactionEndDate);
+                        startActivity(pemasukan);
+                    } else {
+                        Intent pengeluaran = new Intent(MainActivity.this,HistoryCashOut.class);
+                        pengeluaran.putExtra("startDate",transactionStartDate);
+                        pengeluaran.putExtra("endDate",transactionEndDate);
+                        startActivity(pengeluaran);
+                    }
+                }
             }
         });
 
