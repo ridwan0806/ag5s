@@ -69,7 +69,7 @@
                     android:text="Histori Uang Masuk"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                     app:layout_constraintStart_toEndOf="@+id/imageView4"
@@ -79,7 +79,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey">
+                android:background="@color/white">
 
                 <TextView
                     android:id="@+id/textView22"
@@ -97,8 +97,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
+                    android:layout_marginBottom="16dp"
                     android:text="Sampai Tanggal :"
                     android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView22"
                     app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
@@ -129,62 +131,6 @@
                     app:layout_constraintTop_toTopOf="@+id/textView42"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <TextView
-                    android:id="@+id/textView46"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Total Keseluruhan Transaksi :"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="@+id/textView42"
-                    app:layout_constraintTop_toBottomOf="@+id/textView42" />
-
-                <TextView
-                    android:id="@+id/textView54"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Total Keseluruhan Setoran :"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textView46"
-                    app:layout_constraintTop_toBottomOf="@+id/textView46" />
-
-                <TextView
-                    android:id="@+id/tvHistoryCashInTotalTrx"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:text="0"
-                    android:textColor="@color/blue"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView46"
-                    app:layout_constraintStart_toEndOf="@+id/textView46"
-                    app:layout_constraintTop_toTopOf="@+id/textView46" />
-
-                <TextView
-                    android:id="@+id/tvHistoryCashInTotalBill"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rp 0"
-                    android:textColor="@color/blue"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView54"
-                    app:layout_constraintEnd_toEndOf="@+id/textView61"
-                    app:layout_constraintTop_toTopOf="@+id/textView54" />
-
-                <TextView
-                    android:id="@+id/textView61"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:text="Transaksi"
-                    android:textColor="@color/blue"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvHistoryCashInTotalTrx"
-                    app:layout_constraintStart_toEndOf="@+id/tvHistoryCashInTotalTrx"
-                    app:layout_constraintTop_toTopOf="@+id/tvHistoryCashInTotalTrx" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
