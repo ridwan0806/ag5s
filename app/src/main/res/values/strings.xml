@@ -10,6 +10,18 @@
     <string name="cibatok">CIBATOK</string>
     <string name="cikampak">CIKAMPAK</string>
 
+    <string name="no1">1.</string>
+    <string name="x">X</string>
+    <string name="rp0">Rp 0</string>
+    <string name="startDate">Dari Tanggal :</string>
+    <string name="endDate">Sampai Tanggal :</string>
+    <string name="rekapPenjualan">Rekap Penjualan</string>
+
+    <string name="transaksi">Jml Transaksi</string>
+    <string name="subtotalDate">Subtotal (Rp)</string>
+    <string name="date">Tanggal</string>
+    <string name="semicolon">:</string>
+
     <!--DASHBOARD-->
     <string name="dashboard">Dashboard</string>
     <string name="makanan">Daftar Menu</string>
@@ -76,7 +88,14 @@
     <string name="headerCashier">Daftar Transaksi Penjualan</string>
 
     <!--HISTORY TYPE-->
-    <string name="historyType1">Uang Masuk (Penjualan)</string>
-    <string name="historyType2">Uang Keluar (Belanja,Biaya Lainnya)</string>
+    <string name="historyType1">Penjualan Harian</string>
+    <string name="historyType2">Pengeluaran (Belanja Persediaan)</string>
+    <string name="historyType3">Pengeluaran Rutin (Non Belanja)</string>
+    <string name="historyType4">Transaksi Cancel / Gantung</string>
+
+    <string name="detailItemPesanan">Detail Item Pesanan</string>
+    <string name="historyPendapatan">Histori Pendapatan (Penjualan)</string>
+    <string name="historyPengeluaranSupplies">Histori Pengeluaran (Belanja Persediaan)</string>
+    <string name="historyPengeluaranNonSupplies">Histori Pengeluaran (Non Belanja)</string>
 
 </resources>

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hanindya.ag5s.Activity.CashierActivity;
 import com.hanindya.ag5s.Activity.CostActivity;
+import com.hanindya.ag5s.Activity.HistoryCashIn;
+import com.hanindya.ag5s.Activity.HistoryCashOut;
+import com.hanindya.ag5s.Activity.HistoryCashOutCosts;
 import com.hanindya.ag5s.Activity.MenuActivity;
 import com.hanindya.ag5s.Activity.SuppliesActivity;
 import com.hanindya.ag5s.Activity.UserActivity;
@@ -135,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
     private void filterInfoType() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
-        builder.setMessage("Filter Pencarian");
+//        builder.setMessage("Filter Pencarian");
 
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View layout = layoutInflater.inflate(R.layout.dialog_filter_history,null);
@@ -158,12 +162,18 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     int itemId = menuItem.getItemId();
-                    if (itemId == R.id.history_uang_masuk){
-                        transactionType = "pemasukan";
-                        infoType.setText("Uang Masuk (Penjualan)");
-                    } else if (itemId == R.id.history_uang_keluar){
-                        transactionType = "pengeluaran";
-                        infoType.setText("Uang Keluar (Belanja,Biaya Lainnya)");
+                    if (itemId == R.id.history_pendapatan){
+                        transactionType = "history_pendapatan";
+                        infoType.setText("Penjualan Harian");
+                    } else if (itemId == R.id.history_persediaan){
+                        transactionType = "history_persediaan";
+                        infoType.setText("Pengeluaran (Belanja Persediaan)");
+                    } else if (itemId == R.id.history_non_persediaan){
+                        transactionType = "history_non_persediaan";
+                        infoType.setText("Pengeluaran Rutin (Non Belanja)");
+                    } else if (itemId == R.id.history_trx_cancel){
+                        transactionType = "history_trx_cancel";
+                        infoType.setText("Transaksi Cancel / Gantung");
                     } else {
                         transactionType = "";
                     }
@@ -279,16 +289,23 @@ public class MainActivity extends AppCompatActivity {
                     });
                     error.show();
                 } else {
-                    if (transactionType == "pemasukan"){
-                        Intent pemasukan = new Intent(MainActivity.this,HistoryCashIn.class);
+                    if (transactionType == "history_pendapatan"){
+                        Intent pemasukan = new Intent(MainActivity.this, HistoryCashIn.class);
                         pemasukan.putExtra("startDate",transactionStartDate);
                         pemasukan.putExtra("endDate",transactionEndDate);
                         startActivity(pemasukan);
-                    } else {
-                        Intent pengeluaran = new Intent(MainActivity.this,HistoryCashOut.class);
+                    } else if (transactionType == "history_persediaan"){
+                        Intent pengeluaran = new Intent(MainActivity.this, HistorySuppliesOrder.class);
                         pengeluaran.putExtra("startDate",transactionStartDate);
                         pengeluaran.putExtra("endDate",transactionEndDate);
                         startActivity(pengeluaran);
+                    } else if (transactionType == "history_non_persediaan"){
+                        Intent cashOutNonSupplies = new Intent(MainActivity.this, HistoryCashOut.class);
+                        cashOutNonSupplies.putExtra("startDate",transactionStartDate);
+                        cashOutNonSupplies.putExtra("endDate",transactionEndDate);
+                        startActivity(cashOutNonSupplies);
+                    } else if (transactionType == "history_trx_cancel"){
+                        Toast.makeText(MainActivity.this, "fitur ini blm siap", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -12,10 +12,19 @@
         android:theme="@style/Theme.AG5S"
         tools:targetApi="31">
         <activity
-            android:name=".HistoryCashOut"
+            android:name=".HistorySuppliesOrder"
             android:exported="false" />
         <activity
-            android:name=".HistoryCashIn"
+            android:name=".Activity.HistoryCashOut"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.HistoryCashInOrders"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.HistoryCashOutCosts"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.HistoryCashIn"
             android:exported="false" />
         <activity
             android:name=".Activity.CashierOrderDetailCancel"

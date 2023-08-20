@@ -42,7 +42,7 @@ import java.util.Date;
 
 public class CostActivity extends AppCompatActivity {
     DatabaseReference dbCostRef,dbCost;
-    String userId,branchName,userName;
+    String userId,branchName,userName,costDate;
     TextView costRefName,costRefDate,costRefAttachment;
     EditText costRefSubtotal,costRefNotes;
     FirebaseRecyclerAdapter<CostReference, VHCostRef>adapter;
@@ -173,7 +173,7 @@ public class CostActivity extends AppCompatActivity {
                     }
 
                     costRefDate.setText(year+"-"+monthString+"-"+dayString);
-
+                    costDate = costRefDate.getText().toString();
                 }
             }, year, month, day);
             dateCost.show();
@@ -211,13 +211,13 @@ public class CostActivity extends AppCompatActivity {
                             Cost cost = new Cost();
                             cost.setName(name);
                             cost.setSubtotal(Double.parseDouble(subtotalString));
-                            cost.setDate(costRefDate.getText().toString());
+                            cost.setDate(costDate);
                             cost.setNotes(costRefNotes.getText().toString());
                             cost.setUrlAttachment("");
                             cost.setCreatedBy(userName);
                             cost.setCreatedDateTime(createdDateTime.format(dateNow));
                             
-                            dbCost.child(costRefDate.getText().toString()).push().setValue(cost);
+                            dbCost.child(costDate).push().setValue(cost);
                             Toast.makeText(CostActivity.this, "Sukses. "+name+" berhasil diinput", Toast.LENGTH_SHORT).show();
                         }
 

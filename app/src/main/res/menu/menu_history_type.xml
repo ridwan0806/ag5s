@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/history_uang_masuk"
+        android:id="@+id/history_pendapatan"
         android:title="@string/historyType1" />
     <item
-        android:id="@+id/history_uang_keluar"
+        android:id="@+id/history_persediaan"
         android:title="@string/historyType2" />
+    <item
+        android:id="@+id/history_non_persediaan"
+        android:title="@string/historyType3" />
+    <item
+        android:id="@+id/history_trx_cancel"
+        android:title="@string/historyType4" />
 </menu>

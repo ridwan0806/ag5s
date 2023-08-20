@@ -1,4 +1,4 @@
-package com.hanindya.ag5s;
+package com.hanindya.ag5s.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -25,36 +25,43 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hanindya.ag5s.MainActivity;
 import com.hanindya.ag5s.Model.HistoryRekapCashIn;
-import com.hanindya.ag5s.ViewHolder.History.VHHistoryCashIn;
+import com.hanindya.ag5s.R;
+import com.hanindya.ag5s.ViewHolder.History.VHHistoryCashOut;
 
-public class HistoryCashIn extends AppCompatActivity {
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
+public class HistoryCashOut extends AppCompatActivity {
     String startDate = "";
     String endDate = "";
 
-    DatabaseReference root,dbUser,dbOrder,tmpSummary;
+    DatabaseReference root,dbUser,dbCost,tmpSummary;
     FirebaseUser firebaseUser;
     String userId,branchName,userName;
 
     String dateTrx = "";
-    String test = "";
     int transactionPerDate = 0;
-    double billPerDate = 0;
+    double subtotalPerDate = 0;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ProgressBar progressBar;
-    FirebaseRecyclerAdapter<HistoryRekapCashIn, VHHistoryCashIn> adapter;
+    FirebaseRecyclerAdapter<HistoryRekapCashIn, VHHistoryCashOut> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_cash_in);
+        setContentView(R.layout.activity_history_cash_out_non_supplies);
 
-        recyclerView = findViewById(R.id.rvHistoryCashIn);
+        recyclerView = findViewById(R.id.rvHistoryCashOutNonSupplies);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        progressBar = findViewById(R.id.pbHistoryCashIn);
+        progressBar = findViewById(R.id.pbHistoryCashOutNonSupplies);
+
+        TextView dateFrom = findViewById(R.id.txtHistoryCashOutNonSuppliesStartDate);
+        TextView dateTo = findViewById(R.id.txtHistoryCashOutNonSuppliesEndDate);
 
         root = FirebaseDatabase.getInstance().getReference();
 
@@ -65,6 +72,8 @@ public class HistoryCashIn extends AppCompatActivity {
         if (getIntent() != null){
             startDate = getIntent().getStringExtra("startDate");
             endDate = getIntent().getStringExtra("endDate");
+            dateFrom.setText(startDate);
+            dateTo.setText(endDate);
         }
 
         dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -72,9 +81,9 @@ public class HistoryCashIn extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 branchName = snapshot.child("branch").getValue(String.class);
                 userName = snapshot.child("username").getValue(String.class);
-                dbOrder = root.child("Orders").child(branchName);
-                tmpSummary = root.child("Summary").child(branchName).child(userId);
-                getSummaryCashIn(startDate,endDate);
+                dbCost = root.child("Cost").child(branchName);
+                tmpSummary = root.child("Summary").child(branchName).child(userId).child("CashOut");
+                getSummaryCashOut(startDate,endDate);
             }
 
             @Override
@@ -84,14 +93,14 @@ public class HistoryCashIn extends AppCompatActivity {
         });
     }
 
-    private void getSummaryCashIn(String startDate, String endDate) {
+    private void getSummaryCashOut(String startDate, String endDate) {
         tmpSummary.removeValue(); //reset last temporary history
-        Query query = dbOrder.orderByKey().startAt(startDate).endAt(endDate);
+        Query query = dbCost.orderByKey().startAt(startDate).endAt(endDate);
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()){
-                    AlertDialog.Builder info = new AlertDialog.Builder(HistoryCashIn.this);
+                    AlertDialog.Builder info = new AlertDialog.Builder(HistoryCashOut.this);
                     info.setCancelable(false);
                     info.setTitle("Info");
                     info.setMessage("Data tidak ditemukan");
@@ -100,7 +109,7 @@ public class HistoryCashIn extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
 
-                            Intent home = new Intent(HistoryCashIn.this, MainActivity.class);
+                            Intent home = new Intent(HistoryCashOut.this, MainActivity.class);
                             home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(home);
                             finish();
@@ -110,7 +119,7 @@ public class HistoryCashIn extends AppCompatActivity {
                 } else {
                     for (DataSnapshot ordersByDate:snapshot.getChildren()){
                         String orderDate = ordersByDate.getKey();
-                        Query db = dbOrder.child(orderDate).orderByChild("orderStatus").equalTo("Paid");
+                        Query db = dbCost.child(orderDate);
                         ValueEventListener valueEventListener = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -119,16 +128,16 @@ public class HistoryCashIn extends AppCompatActivity {
                                     transactionPerDate = Integer.parseInt(String.valueOf(snapshot.getChildrenCount()));
 
                                     for (DataSnapshot ds:snapshot.getChildren()){
-                                        double bill = Double.valueOf(ds.child("totalBill").getValue(long.class)); //bill tiap transaksi
-                                        billPerDate = billPerDate + bill;
+                                        double subtotal = Double.valueOf(ds.child("subtotal").getValue(long.class)); //bill tiap transaksi
+                                        subtotalPerDate = subtotalPerDate + subtotal;
                                     }
-
-                                    int newValue = (int) Math.round(billPerDate); // Convert into Integer (Pembulatan)
+//
+                                    int newValue = (int) Math.round(subtotalPerDate); // Convert into Integer (Pembulatan)
                                     HistoryRekapCashIn item = new HistoryRekapCashIn(dateTrx,transactionPerDate,newValue);
                                     String tempId = tmpSummary.push().getKey();
                                     tmpSummary.child(tempId).setValue(item);
 
-                                    billPerDate = 0; // Reset Total bill per tiap hari
+                                    subtotalPerDate = 0; // Reset subtotal perhari
                                 }
                             }
 
@@ -148,30 +157,40 @@ public class HistoryCashIn extends AppCompatActivity {
             }
         };
         query.addListenerForSingleValueEvent(listener);
-        getTempDataHistoryCashIn();
+        getTempDataHistoryCashOut();
     }
 
-    private void getTempDataHistoryCashIn() {
+    private void getTempDataHistoryCashOut() {
         FirebaseRecyclerOptions<HistoryRekapCashIn> list =
                 new FirebaseRecyclerOptions.Builder<HistoryRekapCashIn>()
                         .setQuery(tmpSummary.orderByChild("tanggal"),HistoryRekapCashIn.class)
                         .build();
-        adapter = new FirebaseRecyclerAdapter<HistoryRekapCashIn, VHHistoryCashIn>(list) {
+        adapter = new FirebaseRecyclerAdapter<HistoryRekapCashIn, VHHistoryCashOut>(list) {
             @Override
-            protected void onBindViewHolder(@NonNull VHHistoryCashIn holder, int position, @NonNull HistoryRekapCashIn model) {
-                holder.historyCashInOrderDate.setText(model.getTanggal());
-                holder.historyCashInTotalTransaction.setText(String.valueOf(model.getTotalTransaksi()));
-                holder.historyCashInTotalBill.setText(String.valueOf(model.getTotalSetoran()));
-                holder.menuHistoryCashIn.setOnClickListener(view -> {
-                    Toast.makeText(HistoryCashIn.this, "test", Toast.LENGTH_SHORT).show();
+            protected void onBindViewHolder(@NonNull VHHistoryCashOut holder, int position, @NonNull HistoryRekapCashIn model) {
+                String dateCost = adapter.getItem(position).getTanggal();
+
+                NumberFormat formatRp = new DecimalFormat("#,###");
+                double total = model.getTotalSetoran();
+
+                int number = position + 1;
+
+                holder.historyCashOutNonSuppliesNumber.setText(number+".");
+                holder.historyCashOutNonSuppliesOrderDate.setText(model.getTanggal());
+                holder.historyCashOutNonSuppliesTransaction.setText(String.valueOf(model.getTotalTransaksi()));
+                holder.historyCashOutNonSuppliesSubtotal.setText(formatRp.format(total));
+                holder.menuHistoryCashOutNonSuppliesOrderDate.setOnClickListener(view -> {
+                    Intent detailCost = new Intent(HistoryCashOut.this, HistoryCashOutCosts.class);
+                    detailCost.putExtra("costDate",dateCost);
+                    startActivity(detailCost);
                 });
             }
 
             @NonNull
             @Override
-            public VHHistoryCashIn onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public VHHistoryCashOut onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_rv_history_cash_in,parent,false);
-                return new VHHistoryCashIn(view);
+                return new VHHistoryCashOut(view);
             }
 
             @Override
@@ -180,22 +199,8 @@ public class HistoryCashIn extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                 }
             }
-            
         };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
-    }
-
-    public void refreshActivity() {
-        Intent i = new Intent(this, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        refreshActivity();
-        super.onBackPressed();
     }
 }

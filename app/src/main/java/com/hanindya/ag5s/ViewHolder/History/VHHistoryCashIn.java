@@ -10,27 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hanindya.ag5s.Interface.ItemClickListener;
 import com.hanindya.ag5s.R;
 
-public class VHHistoryCashIn extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class VHHistoryCashIn extends RecyclerView.ViewHolder {
 
-    public TextView historyCashInOrderDate,historyCashInTotalTransaction,historyCashInTotalBill;
+    public TextView historyCashInNumber,historyCashInOrderDate,historyCashInTotalTransaction,historyCashInTotalBill;
     public ImageView menuHistoryCashIn;
-    private ItemClickListener itemClickListener;
 
     public VHHistoryCashIn(@NonNull View itemView) {
         super(itemView);
+        historyCashInNumber = itemView.findViewById(R.id.txtRVHistoryCashInNumber);
         historyCashInOrderDate = itemView.findViewById(R.id.txtRVHistoryCashInDate);
         historyCashInTotalTransaction = itemView.findViewById(R.id.txtRVHistoryCashInTotalTransaction);
         historyCashInTotalBill = itemView.findViewById(R.id.txtRVHistoryCashInTotalBill);
         menuHistoryCashIn = itemView.findViewById(R.id.imgRVHistoryCashInOpen);
-        itemView.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        itemClickListener.onClick(view,getBindingAdapterPosition(),false);
-    }
-
-    public void setItemClickListener(ItemClickListener itemClickListener){
-        this.itemClickListener = itemClickListener;
     }
 }
